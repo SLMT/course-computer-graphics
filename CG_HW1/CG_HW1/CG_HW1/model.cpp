@@ -21,9 +21,6 @@ void colorModel(GLMmodel* model)
 {
 	int i;
 
-	global_vertices = (GLfloat *) malloc(sizeof(GLfloat) * model->numtriangles * 9);
-	global_colors = (GLfloat *) malloc(sizeof(GLfloat) * model->numtriangles * 9);
-
 	// TODO:
 	//// You should traverse the vertices and the colors of each vertex. 
 	//// Normalize each vertex into [-1, 1], which will fit the camera clipping window.
@@ -34,6 +31,7 @@ void colorModel(GLMmodel* model)
 	model->position[1];
 	model->position[2];
 
+	/*
 	for(i = 0; i < (int) model->numtriangles; i++)
 	{
 		// the index of each vertex
@@ -73,6 +71,7 @@ void colorModel(GLMmodel* model)
 		c2 = model->colors[indv3*3+1];
 		c3 = model->colors[indv3*3+2];
 	}
+	*/
 }
 
 GLMmodel* loadOBJModel(char *filename)

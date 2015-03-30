@@ -23,7 +23,6 @@ void setShaders();
 // Global Variables
 extern GLMmodel *global_current_model; // in gl_render.cpp
 extern GLint global_pos_loc, global_color_loc; // in gl_render.cpp
-extern GLfloat *global_vertices, *global_colors;
 
 
 #endif  // CG_HW1_H
