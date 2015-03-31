@@ -23,6 +23,8 @@ void setShaders();
 // Global Variables
 extern GLMmodel *global_current_model; // in gl_render.cpp
 extern GLint global_pos_loc, global_color_loc; // in gl_render.cpp
-
+extern char *global_obj_files[];
+extern unsigned global_obj_files_num;
+extern bool global_flag_is_solid;
 
 #endif  // CG_HW1_H

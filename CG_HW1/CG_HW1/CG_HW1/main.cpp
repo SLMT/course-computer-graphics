@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 	setShaders();
 
 	// load obj models
-	global_current_model = loadOBJModel("ColorModels/bunny5KC.obj");
+	global_current_model = loadOBJModel(global_obj_files[0]);
 
 
 	// -------------------------

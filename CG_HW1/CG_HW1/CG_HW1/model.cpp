@@ -6,6 +6,7 @@
 // Original Libraries
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // OpenGL-related Libraries
 #include <freeglut/glut.h>
@@ -16,73 +17,93 @@
 // My Header Files
 #include "cg_hw1.h"
 
+// Model Files
+unsigned global_obj_files_num = 33;
+char *global_obj_files[] = {
+	// Low
+	"ColorModels/Low/boxC.obj",
+	"ColorModels/Low/dodecahedronC.obj",
+	"ColorModels/Low/dolphinC.obj",
+	"ColorModels/Low/icosahedronC.obj",
+	"ColorModels/Low/octahedronC.obj",
+	"ColorModels/Low/shuttleC.obj",
+	"ColorModels/Low/sphereC.obj",
+	"ColorModels/Low/tetrahedronC.obj",
+	"ColorModels/Low/tigerC.obj",
 
-void colorModel(GLMmodel* model)
+	// Medium
+	"ColorModels/Medium/al7KC.obj",
+	"ColorModels/Medium/bunny5KC.obj",
+	"ColorModels/Medium/cessna7KC.obj",
+	"ColorModels/Medium/cow3KC.obj",
+	"ColorModels/Medium/duck4KC.obj",
+	"ColorModels/Medium/frog2KC.obj",
+	"ColorModels/Medium/heptoroid8KC.obj",
+	"ColorModels/Medium/horse5KC.obj",
+	"ColorModels/Medium/laurana2KC.obj",
+	"ColorModels/Medium/nala6KC.obj",
+	"ColorModels/Medium/santa7KC.obj",
+	"ColorModels/Medium/teapot4KC.obj",
+
+	// High
+	"ColorModels/High/armadillo12KC.obj",
+	"ColorModels/High/brain18KC.obj",
+	"ColorModels/High/dino20KC.obj",
+	"ColorModels/High/dragon10KC.obj",
+	"ColorModels/High/elephant16KC.obj",
+	"ColorModels/High/happy10KC.obj",
+	"ColorModels/High/hippo23KC.obj",
+	"ColorModels/High/igea17KC.obj",
+	"ColorModels/High/lion12KC.obj",
+	"ColorModels/High/lucy25KC.obj",
+	"ColorModels/High/maxplanck20KC.obj",
+	"ColorModels/High/texturedknot11KC.obj"
+};
+
+
+void normalize(GLMmodel* model)
 {
-	int i;
+	GLfloat max = 0;
+	GLfloat sum[] = {0, 0, 0};
+	GLfloat mean[] = {0, 0, 0};
 
-	// TODO:
-	//// You should traverse the vertices and the colors of each vertex. 
-	//// Normalize each vertex into [-1, 1], which will fit the camera clipping window.
+	// Find mean
+	for (int vi = 1; vi <= (int) model->numvertices; vi++)
+		for (int ci = 0; ci < 3; ci++)
+			sum[ci] += model->vertices[vi * 3 + ci];
+	for (int ci = 0; ci < 3; ci++)
+		mean[ci] = sum[ci] / model->numvertices;
 
-	// The center position of the model 
-	// (should be calculated by yourself)
-	model->position[0];
-	model->position[1];
-	model->position[2];
+	// Shift
+	for (int vi = 1; vi <= (int) model->numvertices; vi++)
+		for (int ci = 0; ci < 3; ci++)
+			model->vertices[vi * 3 + ci] -= mean[ci];
 
-	/*
-	for(i = 0; i < (int) model->numtriangles; i++)
-	{
-		// the index of each vertex
-		int indv1 = model->triangles[i].vindices[0];
-		int indv2 = model->triangles[i].vindices[1];
-		int indv3 = model->triangles[i].vindices[2];
-
-		// the index of each color
-		int indc1 = indv1;
-		int indc2 = indv2;
-		int indc3 = indv3;
-
-		// vertices
-		global_vertices[i*9+0] = model->vertices[indv1*3+0];
-		global_vertices[i*9+1] = model->vertices[indv1*3+1];
-		global_vertices[i*9+2] = model->vertices[indv1*3+2];
-
-		global_vertices[i*9+3] = model->vertices[indv2*3+0];
-		global_vertices[i*9+4] = model->vertices[indv2*3+1];
-		global_vertices[i*9+5] = model->vertices[indv2*3+2];
-
-		global_vertices[i*9+6] = model->vertices[indv3*3+0];
-		global_vertices[i*9+7] = model->vertices[indv3*3+1];
-		global_vertices[i*9+8] = model->vertices[indv3*3+2];
-
-		// colors
-		GLfloat c1, c2, c3;
-		c1 = model->colors[indv1*3+0];
-		c2 = model->colors[indv1*3+1];
-		c3 = model->colors[indv1*3+2];
-
-		c1 = model->colors[indv2*3+0];
-		c2 = model->colors[indv2*3+1];
-		c3 = model->colors[indv2*3+2];
-
-		c1 = model->colors[indv3*3+0];
-		c2 = model->colors[indv3*3+1];
-		c3 = model->colors[indv3*3+2];
+	// Find max
+	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+		for (int ci = 0; ci < 3; ci++) {
+			GLfloat length = abs(model->vertices[vi * 3 + ci]);
+			if (max < length)
+				max = length;
+		}
 	}
-	*/
+
+	// Normalize
+	GLfloat ratio = 1.0f / max;
+	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+		for (int ci = 0; ci < 3; ci++) {
+			model->vertices[vi * 3 + ci] *= ratio;
+		}
+	}
 }
 
 GLMmodel* loadOBJModel(char *filename)
 {
-	printf("Read obj file %s\n", filename);
-
 	// read an obj model here
 	GLMmodel* model = glmReadOBJ(filename);
 
-	// traverse the color model
-	colorModel(model);
+	// normalize model
+	normalize(model);
 
 	return model;
 }

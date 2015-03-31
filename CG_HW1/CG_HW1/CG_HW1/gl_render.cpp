@@ -19,20 +19,16 @@
 // Global variables
 GLMmodel* global_current_model = NULL;
 GLint global_pos_loc, global_color_loc;
+bool global_flag_is_solid = true;
 
 void idle(void)
 {
 	glutPostRedisplay();
 }
 
-void renderScene(void)
-{
+void renderModel(void) {
 	int i;
 	GLfloat vertex[9], color[9];
-
-	// clear canvas
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glEnableVertexAttribArray(global_pos_loc);
 	glEnableVertexAttribArray(global_color_loc);
@@ -81,6 +77,23 @@ void renderScene(void)
 		// draw the array we just bound
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
+}
 
+void renderScene(void)
+{
+	// Clear
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Render Mode
+	if (global_flag_is_solid)
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	else
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
+	// Render model
+	renderModel();
+
+	// Swap
 	glutSwapBuffers();
 }
