@@ -5,8 +5,7 @@
 ************************************/
 // Original Libraries
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <float.h>
 
 // OpenGL-related Libraries
 #include <freeglut/glut.h>
@@ -63,38 +62,58 @@ char *global_obj_files[] = {
 
 void normalize(GLMmodel* model)
 {
-	GLfloat max = 0;
-	GLfloat sum[] = {0, 0, 0};
-	GLfloat mean[] = {0, 0, 0};
+	// Find the longest distance to the center
+	GLfloat max_diff = 0;
+	for (int ci = 0; ci < 3; ci++) {
+		GLfloat max = FLT_MIN, min = FLT_MAX;
 
-	// Find mean
-	for (int vi = 1; vi <= (int) model->numvertices; vi++)
-		for (int ci = 0; ci < 3; ci++)
-			sum[ci] += model->vertices[vi * 3 + ci];
-	for (int ci = 0; ci < 3; ci++)
-		mean[ci] = sum[ci] / model->numvertices;
+		for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+			GLfloat value = model->vertices[vi * 3 + ci];
 
-	// Shift
-	for (int vi = 1; vi <= (int) model->numvertices; vi++)
-		for (int ci = 0; ci < 3; ci++)
-			model->vertices[vi * 3 + ci] -= mean[ci];
+			if (max < value)
+				max = value;
 
-	// Find max
-	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
-		for (int ci = 0; ci < 3; ci++) {
-			GLfloat length = abs(model->vertices[vi * 3 + ci]);
-			if (max < length)
-				max = length;
+			if (min > value)
+				min = value;
 		}
+
+		// printf("Min: %f, Max: %f\n", min, max);
+
+		GLfloat diff = (max - min) / 2;
+		if (max_diff < diff)
+			max_diff = diff;
 	}
 
-	// Normalize
-	GLfloat ratio = 1.0f / max;
+	// Scale
+	GLfloat ratio = 1.0f / max_diff;
 	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
 		for (int ci = 0; ci < 3; ci++) {
 			model->vertices[vi * 3 + ci] *= ratio;
 		}
 	}
+
+	// Find the center
+	GLfloat center[3];
+	for (int ci = 0; ci < 3; ci++) {
+		GLfloat max = FLT_MIN, min = FLT_MAX;
+
+		for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+			GLfloat value = model->vertices[vi * 3 + ci];
+
+			if (max < value)
+				max = value;
+
+			if (min > value)
+				min = value;
+		}
+
+		center[ci] = (max + min) / 2;
+	}
+
+	// Shift
+	for (int vi = 1; vi <= (int) model->numvertices; vi++)
+		for (int ci = 0; ci < 3; ci++)
+			model->vertices[vi * 3 + ci] -= center[ci];
 }
 
 GLMmodel* loadOBJModel(char *filename)
