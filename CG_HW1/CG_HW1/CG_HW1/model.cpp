@@ -62,40 +62,10 @@ char *global_obj_files[] = {
 
 void normalize(GLMmodel* model)
 {
-	// Find the longest distance to the center
-	GLfloat max_diff = 0;
-	for (int ci = 0; ci < 3; ci++) {
-		GLfloat max = FLT_MIN, min = FLT_MAX;
-
-		for (int vi = 1; vi <= (int) model->numvertices; vi++) {
-			GLfloat value = model->vertices[vi * 3 + ci];
-
-			if (max < value)
-				max = value;
-
-			if (min > value)
-				min = value;
-		}
-
-		// printf("Min: %f, Max: %f\n", min, max);
-
-		GLfloat diff = (max - min) / 2;
-		if (max_diff < diff)
-			max_diff = diff;
-	}
-
-	// Scale
-	GLfloat ratio = 1.0f / max_diff;
-	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
-		for (int ci = 0; ci < 3; ci++) {
-			model->vertices[vi * 3 + ci] *= ratio;
-		}
-	}
-
 	// Find the center
 	GLfloat center[3];
 	for (int ci = 0; ci < 3; ci++) {
-		GLfloat max = FLT_MIN, min = FLT_MAX;
+		GLfloat max = -FLT_MAX, min = FLT_MAX;
 
 		for (int vi = 1; vi <= (int) model->numvertices; vi++) {
 			GLfloat value = model->vertices[vi * 3 + ci];
@@ -114,6 +84,34 @@ void normalize(GLMmodel* model)
 	for (int vi = 1; vi <= (int) model->numvertices; vi++)
 		for (int ci = 0; ci < 3; ci++)
 			model->vertices[vi * 3 + ci] -= center[ci];
+
+	// Find the longest distance to the center
+	GLfloat max_diff = 0;
+	for (int ci = 0; ci < 3; ci++) {
+		GLfloat max = FLT_MIN, min = FLT_MAX;
+
+		for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+			GLfloat value = model->vertices[vi * 3 + ci];
+
+			if (max < value)
+				max = value;
+
+			if (min > value)
+				min = value;
+		}
+
+		GLfloat diff = (max - min) / 2;
+		if (max_diff < diff)
+			max_diff = diff;
+	}
+
+	// Scale
+	GLfloat ratio = 1.0f / max_diff;
+	for (int vi = 1; vi <= (int) model->numvertices; vi++) {
+		for (int ci = 0; ci < 3; ci++) {
+			model->vertices[vi * 3 + ci] *= ratio;
+		}
+	}
 }
 
 GLMmodel* loadOBJModel(char *filename)
