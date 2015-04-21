@@ -5,6 +5,7 @@
 #include <freeglut/glut.h>
 #include "textfile.h"
 #include "GLM.h"
+#include "model.h"
 
 #ifndef GLUT_WHEEL_UP
 # define GLUT_WHEEL_UP   0x0003
@@ -21,82 +22,19 @@ GLint iLocPosition;
 GLint iLocColor;
 GLint iLocMVP;
 
-char filename[] = "ColorModels/bunny5KC.obj";
+//char filename[] = "ColorModels/bunny5KC.obj";
+//char filename[] = "ColorModels/boxC.obj";
+char filename[] = "ColorModels/triangleC.obj";
 
-GLMmodel* OBJ;
 GLfloat aMVP[16];
-
-void colorModel()
-{
-	int i;
-
-	//// TODO(HW1)
-	//// Add some code to assign information of vertex position & color 
-	
-
-
-	// number of triangles
-	OBJ->numtriangles;
-
-	// number of vertices
-	OBJ->numvertices;
-
-	// The center position of the model 
-	// (should be calculated by yourself)
-	OBJ->position[0];
-	OBJ->position[1];
-	OBJ->position[2];
-
-	for(i=0; i<(int)OBJ->numtriangles; i++)
-	{
-		// the index of each vertex
-		int indv1 = OBJ->triangles[i].vindices[0];
-		int indv2 = OBJ->triangles[i].vindices[1];
-		int indv3 = OBJ->triangles[i].vindices[2];
-
-		// the index of each color
-		int indc1 = indv1;
-		int indc2 = indv2;
-		int indc3 = indv3;
-
-		// vertices
-		GLfloat vx, vy, vz;
-		vx = OBJ->vertices[indv1*3+0];
-		vy = OBJ->vertices[indv1*3+1];
-		vz = OBJ->vertices[indv1*3+2];
-
-		vx = OBJ->vertices[indv2*3+0];
-		vy = OBJ->vertices[indv2*3+1];
-		vz = OBJ->vertices[indv2*3+2];
-
-		vx = OBJ->vertices[indv3*3+0];
-		vy = OBJ->vertices[indv3*3+1];
-		vz = OBJ->vertices[indv3*3+2];
-
-		// colors
-		GLfloat c1, c2, c3;
-		c1 = OBJ->colors[indv1*3+0];
-		c2 = OBJ->colors[indv1*3+1];
-		c3 = OBJ->colors[indv1*3+2];
-
-		c1 = OBJ->colors[indv2*3+0];
-		c2 = OBJ->colors[indv2*3+1];
-		c3 = OBJ->colors[indv2*3+2];
-
-		c1 = OBJ->colors[indv3*3+0];
-		c2 = OBJ->colors[indv3*3+1];
-		c3 = OBJ->colors[indv3*3+2];
-	}
-}
+Matrix iM;
+Model *model = NULL;
 
 void loadOBJModel()
 {
 	// read an obj model here
-	OBJ = glmReadOBJ(filename);
+	model = new Model(filename);
 	printf("%s\n", filename);
-
-	// traverse the color model
-	colorModel();
 }
 
 void idle()
@@ -106,16 +44,6 @@ void idle()
 
 void renderScene(void)
 {
-	///TODO(HW2):
-	// Calculate your transform matrices and multiply them.
-	// Finally, assign the MVP matrix to aMVP.
-	// NOTE:
-	// You should add comment to describe where are your Model,
-	// Viewing, and Projection transform matrices.
-
-
-
-
 	///Example of displaying colorful triangle
 	// clear canvas
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -142,14 +70,9 @@ void renderScene(void)
 	aMVP[2] = 0;	aMVP[6] = 0;	aMVP[10] = -1;	aMVP[14] = 0;
 	aMVP[3] = 0;	aMVP[7] = 0;	aMVP[11] = 0;	aMVP[15] = 1;
 	
-
-	glVertexAttribPointer(iLocPosition, 3, GL_FLOAT, GL_FALSE, 0, triangle_vertex);
-	glVertexAttribPointer(   iLocColor, 3, GL_FLOAT, GL_FALSE, 0, triangle_color);
-
 	glUniformMatrix4fv(iLocMVP, 1, GL_FALSE, aMVP);
-
-	// draw the array we just bound
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	
+	model->draw(iM, iLocPosition, iLocColor, iLocMVP);
 
 	glutSwapBuffers();
 }
@@ -261,7 +184,7 @@ int main(int argc, char **argv) {
 	// create window
 	glutInitWindowPosition(460, 40);
 	glutInitWindowSize(800, 800);
-	glutCreateWindow("10320 CS550000 CG HW2 TA");
+	glutCreateWindow("SLMT's CG HW2");
 
 	glewInit();
 	if(glewIsSupported("GL_VERSION_2_0")){
@@ -290,8 +213,7 @@ int main(int argc, char **argv) {
 	// main loop
 	glutMainLoop();
 
-	// free
-	glmDelete(OBJ);
+	delete model;
 
 	return 0;
 }
