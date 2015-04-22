@@ -22,12 +22,12 @@ GLint iLocPosition;
 GLint iLocColor;
 GLint iLocMVP;
 
-//char filename[] = "ColorModels/bunny5KC.obj";
+char filename[] = "ColorModels/bunny5KC.obj";
 //char filename[] = "ColorModels/boxC.obj";
-char filename[] = "ColorModels/triangleC.obj";
+//char filename[] = "ColorModels/triangleC.obj";
 
 GLfloat aMVP[16];
-Matrix iM;
+Matrix transfromMatrix;
 Model *model = NULL;
 
 void loadOBJModel()
@@ -52,27 +52,18 @@ void renderScene(void)
 	glEnableVertexAttribArray(iLocPosition);
 	glEnableVertexAttribArray(iLocColor);
 
-	static GLfloat triangle_color[] = {
-		1.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 1.0f
-	};
-
-	static GLfloat triangle_vertex[] = {
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f
-	};
-
+	/*
 	// Move example triangle to left by 0.5
 	aMVP[0] = 1;	aMVP[4] = 0;	aMVP[8] = 0;	aMVP[12] = -0.5;
 	aMVP[1] = 0;	aMVP[5] = 1;	aMVP[9] = 0;	aMVP[13] = 0;
 	aMVP[2] = 0;	aMVP[6] = 0;	aMVP[10] = -1;	aMVP[14] = 0;
 	aMVP[3] = 0;	aMVP[7] = 0;	aMVP[11] = 0;	aMVP[15] = 1;
-	
+
 	glUniformMatrix4fv(iLocMVP, 1, GL_FALSE, aMVP);
-	
-	model->draw(iM, iLocPosition, iLocColor, iLocMVP);
+	*/
+	Matrix viewTrans = Matrix::generateScaleMatrix(1, 1, -1);
+
+	model->draw(viewTrans, iLocPosition, iLocColor, iLocMVP);
 
 	glutSwapBuffers();
 }

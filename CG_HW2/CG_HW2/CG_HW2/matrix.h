@@ -6,16 +6,23 @@
 class Matrix {
 public:
 
+	// Static factory methods
+	static Matrix generateTranslationMatrix(GLfloat dx, GLfloat dy, GLfloat dz);
+	static Matrix generateRotationMatrix(GLfloat theta, GLfloat x, GLfloat y, GLfloat z);
+	static Matrix generateScaleMatrix(GLfloat sx, GLfloat sy, GLfloat sz);
+
 	// Constructor
 	Matrix();
 
 	// Multiply to this matrix
-	void multiply(Matrix &rightMatrix);
-	void multiply(GLfloat rightMatrix[][4]);
+	void postmultiply(Matrix &rightMatrix);
+	void postmultiply(GLfloat rightMatrix[][4]);
 
 	// Translate to column major matrix
 	void outputAsColumnMajor(GLfloat *out);
 
+	// Print the matrix to system standard output
+	void printOut();
 
 private:
 

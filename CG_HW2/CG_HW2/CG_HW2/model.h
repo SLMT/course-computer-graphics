@@ -14,17 +14,19 @@ public:
 	~Model();
 
 	// Render function
-	void draw(const Matrix &transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
+	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
 
 private:
 
 	// Model data
 	GLuint *_vIndices;
 	GLfloat *_vertices, *_colors;
-	GLsizei _numTriangles;
+	GLsizei _numTriangles, _numVertices;
 
 	// Matrixes for rendering
+	Matrix _normalize;
 	Matrix _translate, _rotate, _scale;
+
 };
 
 
