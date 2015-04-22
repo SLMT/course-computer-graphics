@@ -19,27 +19,27 @@ Model::Model(char *fileName) {
 	// Save data
 	_numTriangles = model->numtriangles;
 	_numVertices = model->numvertices;
-	_vIndices = new GLuint[model->numtriangles * 3]; // 3 vertices per triangle
-	_vertices = new GLfloat[model->numtriangles * 9]; // x, y, z per vertex
-	_colors = new GLfloat[model->numtriangles * 9]; // r, g, b per pertex
 
-	unsigned vi;
+	_vIndices = new GLuint[_numTriangles * 3]; // 3 vertices per triangle
+	_vertices = new GLfloat[_numVertices * 9]; // x, y, z per vertex
+	_colors = new GLfloat[_numVertices * 9]; // r, g, b per pertex
+
 	// Iterate each triangle
-	for (unsigned i = 0; i < model->numtriangles; i++) {
-		// Iterate each vertex
+	for (unsigned i = 0; i < _numTriangles; i++) {
+		// Save indeices
 		for (unsigned j = 0; j < 3; j++) {
-			// Get an index
-			vi = model->triangles->vindices[j];
-
-			// Fetch vertex and color
-			for (unsigned k = 0; k < 3; k++) {
-				_vertices[i * 9 + j * 3 + k] = model->vertices[vi * 3 + k];
-				_colors[i * 9 + j * 3 + k] = model->colors[vi * 3 + k];
-			}
-
-			// Save index
 			// Notice: The indeces in Obj files start from 1
-			_vIndices[i * 3 + j] = vi - 1;
+			_vIndices[i * 3 + j] = (model->triangles[i]).vindices[j] - 1;
+		}
+	}
+
+	// Iterate each vertex
+	for (unsigned i = 0; i < _numVertices; i++) {
+		// Fetch vertex and color
+		for (unsigned j = 0; j < 3; j++) {
+			// Notice: The indeces in Obj files start from 1
+			_vertices[i * 3 + j] = model->vertices[(i + 1) * 3 + j];
+			_colors[i * 3 + j] = model->colors[(i + 1) * 3 + j];
 		}
 	}
 
