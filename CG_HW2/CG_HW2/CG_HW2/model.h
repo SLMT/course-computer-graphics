@@ -4,6 +4,9 @@
 // Our libraries
 #include "matrix.h"
 
+// 3-party libraries
+#include <GL/glew.h>
+
 class Model {
 public:
 
@@ -12,6 +15,11 @@ public:
 
 	// Deconstructor
 	~Model();
+
+	// Transform functions
+	void translate(GLfloat dx, GLfloat dy, GLfloat dz);
+	void rotate(GLfloat theta, GLfloat x, GLfloat y, GLfloat z);
+	void scale(GLfloat sx, GLfloat sy, GLfloat sz);
 
 	// Render function
 	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
@@ -25,7 +33,7 @@ private:
 
 	// Matrixes for rendering
 	Matrix _normalize;
-	Matrix _translate, _rotate, _scale;
+	Matrix _translattion, _rotation, _scale;
 
 };
 

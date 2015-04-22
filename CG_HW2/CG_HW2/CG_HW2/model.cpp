@@ -1,11 +1,10 @@
 #include <float.h>
 
-// 3-party libraries
-#include <GL\glew.h>
-#include "GLM.h"
-
 // Our libraries
 #include "model.h"
+
+// 3-party libraries
+#include "GLM.h"
 
 Model::Model(char *fileName) {
 
@@ -108,8 +107,8 @@ Model::Model(char *fileName) {
 	// ===================
 
 	// Initialize matrixes
-	_translate = Matrix();
-	_rotate = Matrix();
+	_translattion = Matrix();
+	_rotation = Matrix();
 	_scale = Matrix();
 }
 
@@ -120,14 +119,26 @@ Model::~Model() {
 	delete[] _colors;
 }
 
+void Model::translate(GLfloat dx, GLfloat dy, GLfloat dz) {
+	_translattion = Matrix::generateTranslationMatrix(dx, dy, dz);
+}
+
+void Model::rotate(GLfloat theta, GLfloat x, GLfloat y, GLfloat z) {
+	_rotation = Matrix::generateRotationMatrix(theta, x, y, z);
+}
+
+void Model::scale(GLfloat sx, GLfloat sy, GLfloat sz) {
+	_scale = Matrix::generateScaleMatrix(sx, sy, sz);
+}
+
 void Model::draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc) {
 	GLfloat mvp[16];
 
-	// TODO: Add translate, rotate, scale matrix
-
-	// TODO: Add normalize matrix
-
-	// Calculate mvp
+	// Calculate MVP
+	// MVP = T * R * S * N
+	transformMatrix.postmultiply(_translattion);
+	transformMatrix.postmultiply(_rotation);
+	transformMatrix.postmultiply(_scale);
 	transformMatrix.postmultiply(_normalize);
 	transformMatrix.outputAsColumnMajor(mvp);
 

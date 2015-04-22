@@ -28,6 +28,7 @@ Matrix Matrix::generateTranslationMatrix(GLfloat dx, GLfloat dy, GLfloat dz) {
 Matrix Matrix::generateRotationMatrix(GLfloat theta, GLfloat x, GLfloat y, GLfloat z) {
 	Matrix matrix = Matrix();
 
+	// TODO: Use glRotate Matrix
 	GLfloat sinTheta = sin(theta * PI / 180);
 	GLfloat cosTheta = cos(theta * PI / 180);
 	

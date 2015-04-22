@@ -1,7 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "freeglut\glut.h"
+// 3-party libraries
+#include <GL/glew.h>
 
 class Matrix {
 public:
