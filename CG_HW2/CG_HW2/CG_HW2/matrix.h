@@ -12,8 +12,9 @@ public:
 	static Matrix generateRotationMatrix(GLfloat theta, GLfloat x, GLfloat y, GLfloat z);
 	static Matrix generateScaleMatrix(GLfloat sx, GLfloat sy, GLfloat sz);
 
-	// Constructor
+	// Constructors
 	Matrix();
+	Matrix(GLfloat rightMatrix[][4]);
 
 	// Multiply to this matrix
 	void postmultiply(Matrix &rightMatrix);

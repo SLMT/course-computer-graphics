@@ -74,6 +74,13 @@ Matrix::Matrix() {
 	}
 }
 
+Matrix::Matrix(GLfloat rightMatrix[][4]) {
+	// Initialize as an indentity matrix
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			_data[i][j] = rightMatrix[i][j];
+}
+
 void Matrix::postmultiply(Matrix &rightMatrix) {
 	this->postmultiply(rightMatrix._data);
 }
