@@ -25,6 +25,6 @@ extern GLint iLocPosition, iLocColor, iLocMVP;
 
 // Transform matrix and model
 extern Matrix transfromMatrix;
-extern Model *model;
+extern Model *currentModel;
 
 #endif

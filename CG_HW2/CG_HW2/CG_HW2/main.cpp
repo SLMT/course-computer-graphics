@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 	}
 
 	// load models through glm
-	model = new Model(filename);
+	currentModel = new Model(filename);
 
 	// register glut callback functions
 	glutDisplayFunc (onRender);
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 	// main loop
 	glutMainLoop();
 
-	delete model;
+	delete currentModel;
 
 	return 0;
 }

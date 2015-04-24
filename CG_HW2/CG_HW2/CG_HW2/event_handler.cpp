@@ -12,6 +12,42 @@
 #define GLUT_WHEEL_DOWN 0x0004
 #endif
 
+#define DELTA 0.1
+
+// Transform Mode
+enum TransformMode { translate, rotate, scale };
+TransformMode transMode = translate;
+
+void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
+	switch (transMode) {
+	case translate:
+		if (moveX)
+			currentModel->translate(value, 0, 0);
+		if (moveY)
+			currentModel->translate(0, value, 0);
+		if (moveZ)
+			currentModel->translate(0, 0, value);
+		break;
+	case rotate:
+		if (moveX)
+			currentModel->rotate(value * 10, 1, 0, 0);
+		if (moveY)
+			currentModel->rotate(value * 10, 0, 1, 0);
+		if (moveZ)
+			currentModel->rotate(value * 10, 0, 0, 1);
+		break;
+	case scale:
+		if (moveX)
+			currentModel->scale(1.0 - value, 1, 1);
+		if (moveY)
+			currentModel->scale(1, 1.0 - value, 1);
+		if (moveZ)
+			currentModel->scale(1, 1, 1.0 - value);
+		break;
+	}
+}
+
+
 
 void onMouseEvent(int who, int state, int x, int y)
 {
@@ -39,11 +75,57 @@ void onMouseMotionEvent(int x, int y) {  // callback on mouse drag
 }
 
 void onKeyboardEvent(unsigned char key, int x, int y) {
-	printf("(%d, %d) ", x, y);
 	switch(key) {
 		case 27: /* the Esc key */ 
 			exit(0); 
 			break;
+		// X++
+		case 'Q':
+		case'q':
+			transformModel(true, false, false, DELTA);
+			break;
+		// X--
+		case 'A':
+		case'a':
+			transformModel(true, false, false, -DELTA);
+			break;
+		// Y++
+		case 'W':
+		case'w':
+			transformModel(false, true, false, DELTA);
+			break;
+		// Y--
+		case 'S':
+		case's':
+			transformModel(false, true, false, -DELTA);
+			break;
+		// Z++
+		case 'E':
+		case'e':
+			transformModel(false, false, true, DELTA);
+			break;
+		// Z--
+		case 'D':
+		case'd':
+			transformModel(false, false, true, -DELTA);
+			break;
+		// Switch transform mode
+		case 'T':
+		case 't':
+			switch (transMode) {
+			case translate:
+				transMode = rotate;
+				printf("Switch to rotate mode.\n");
+				break;
+			case rotate:
+				transMode = scale;
+				printf("Switch to scale mode.\n");
+				break;
+			case scale:
+				transMode = translate;
+				printf("Switch to translate mode.\n");
+				break;
+			}
+			break;
 	}
-	printf("\n");
 }

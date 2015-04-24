@@ -33,7 +33,7 @@ private:
 
 	// Matrixes for rendering
 	Matrix _normalize;
-	Matrix _translattion, _rotation, _scale;
+	Matrix _translation, _rotation, _scale;
 
 };
 

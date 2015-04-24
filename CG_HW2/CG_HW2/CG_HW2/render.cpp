@@ -9,7 +9,7 @@ GLint iLocPosition, iLocColor, iLocMVP;
 
 // Transform matrix and model
 Matrix transfromMatrix;
-Model *model = NULL;
+Model *currentModel = NULL;
 
 
 void onIdle()
@@ -38,7 +38,7 @@ void onRender()
 	*/
 	Matrix viewTrans = Matrix::generateScaleMatrix(1, 1, -1);
 
-	model->draw(viewTrans, iLocPosition, iLocColor, iLocMVP);
+	currentModel->draw(viewTrans, iLocPosition, iLocColor, iLocMVP);
 
 	glutSwapBuffers();
 }
