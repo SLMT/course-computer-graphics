@@ -20,8 +20,6 @@ Projection::Projection(bool isPerspective,
 		perspectiveProject();
 	else
 		orthoProject();
-
-	_projectTransfrom.printOut();
 }
 
 Matrix Projection::getProjectTransfrom() {

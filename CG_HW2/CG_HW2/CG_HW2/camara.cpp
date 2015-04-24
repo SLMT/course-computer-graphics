@@ -99,5 +99,4 @@ void Camara::calculateTransformMatrix() {
 	// Eye traslation
 	Matrix eyeM = Matrix::generateTranslationMatrix(-_eye[0], -_eye[1], -_eye[2]);
 	_viewTransfrom.postmultiply(eyeM);
-	//_viewTransfrom.printOut();
 }

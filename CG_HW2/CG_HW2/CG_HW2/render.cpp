@@ -9,8 +9,8 @@ GLint iLocPosition, iLocColor, iLocMVP;
 
 // Model, View and projection
 Model *currentModel = NULL;
-Camara camara = Camara(0, 0, 10, 0, 0, 0, 0, 1, 0);
-Projection project = Projection(false, -0.5, 0.5, -0.5, 0.5, 1, 10);
+Camara camara = Camara(0, 0, 3, 0, 0, 0, 0, 1, 0);
+Projection project = Projection(true, -0.5, 0.5, -0.5, 0.5, 1, 10);
 
 void onIdle()
 {
