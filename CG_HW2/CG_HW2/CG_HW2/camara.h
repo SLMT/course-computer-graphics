@@ -11,7 +11,9 @@ class Camara {
 public:
 
 	// Constructor
-	Camara();
+	Camara(GLfloat eyeX, GLfloat eyeY, GLfloat eyeZ,
+	GLfloat centerX, GLfloat centerY, GLfloat centerZ,
+	GLfloat upX, GLfloat upY, GLfloat upZ);
 
 	// Transfrom functions
 	void moveEye(GLfloat dx, GLfloat dy, GLfloat dz);
@@ -29,7 +31,7 @@ private:
 	GLfloat _eye[3], _center[3], _up[3];
 
 	Matrix _viewTransfrom;
-}
+};
 
 
 #endif

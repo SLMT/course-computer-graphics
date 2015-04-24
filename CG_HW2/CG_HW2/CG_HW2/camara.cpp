@@ -1,33 +1,48 @@
 #include <math.h>
+#include <float.h>
+#include <stdio.h>
 
 // Our libraries
 #include "camara.h"
 
-void normalize(GLfloat *vec, int count) {
+void normalize(GLfloat *vec) {
 	GLfloat tmp = 0;
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < 3; i++)
 		tmp += vec[i] * vec[i];
 	tmp = sqrt(tmp);
-	for (int i = 0; i < count; i++)
-		vec[i] /= tmp;
+
+	if (tmp > FLT_EPSILON)
+		for (int i = 0; i < 3; i++)
+			vec[i] /= tmp;
+}
+
+void crossProduct(GLfloat *vec1, GLfloat *vec2, GLfloat *result) {
+	result[0] = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+	result[1] = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+	result[2] = vec1[0] * vec2[1] - vec1[1] * vec2[0];
 }
 
 
-Camara::Camara() {
+Camara::Camara(GLfloat eyeX, GLfloat eyeY, GLfloat eyeZ,
+	GLfloat centerX, GLfloat centerY, GLfloat centerZ,
+	GLfloat upX, GLfloat upY, GLfloat upZ) {
+
 	// eye position
-	_eye[0] = 0;
-	_eye[1] = 0;
-	_eye[2] = 0;
+	_eye[0] = eyeX;
+	_eye[1] = eyeY;
+	_eye[2] = eyeZ;
 
 	// center location
-	_center[0] = 0;
-	_center[1] = 0;
-	_center[2] = 0;
+	_center[0] = centerX;
+	_center[1] = centerY;
+	_center[2] = centerZ;
 
 	// up vector
-	_up[0] = 0;
-	_up[1] = 1;
-	_up[2] = 0;
+	_up[0] = upX;
+	_up[1] = upY;
+	_up[2] = upZ;
+
+	calculateTransformMatrix();
 }
 
 void Camara::moveEye(GLfloat dx, GLfloat dy, GLfloat dz) {
@@ -48,28 +63,30 @@ void Camara::moveUp(GLfloat dx, GLfloat dy, GLfloat dz) {
 	_up[2] += dz;
 }
 
+Matrix Camara::getViewTransform() {
+	return _viewTransfrom;
+}
+
 void Camara::calculateTransformMatrix() {
 	GLfloat forward[3], up[3], right[3], realUp[3], tmp;
 	
 	// Calculate forward vector
 	for (int i = 0; i < 3; i++)
 		forward[i] = _center[i] - _eye[i];
-	normalize(forward, 3);
+	normalize(forward);
 
 	// Get up vector
 	for (int i = 0; i < 3; i++)
 		up[i] = _up[i];
-	normalize(up, 3);
+	normalize(up);
 
 	// Calculate right vector
-	for (int i = 0; i < 3; i++)
-		right[i] = forward[i] * up[i];
-	normalize(right, 3);
+	crossProduct(forward, up, right);
+	normalize(right);
 
-	// Calculate u
-	for (int i = 0; i < 3; i++)
-		realUp[i] = right[i] * forward[i];
-	normalize(realUp, 3);
+	// Calculate real up vector
+	crossProduct(right, forward, realUp);
+	normalize(realUp);
 
 	// Generate basis
 	GLfloat view[4][4] = {
@@ -81,6 +98,7 @@ void Camara::calculateTransformMatrix() {
 	_viewTransfrom = Matrix(view);
 
 	// Eye traslation
-	Matrix eyeM = Matrix.generateTranslationMatrix(-_eye[0], -_eye[1], -_eye[2]);
+	Matrix eyeM = Matrix::generateTranslationMatrix(-_eye[0], -_eye[1], -_eye[2]);
 	_viewTransfrom.postmultiply(eyeM);
+	_viewTransfrom.printOut();
 }

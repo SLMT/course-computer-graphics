@@ -4,6 +4,7 @@
 // Our libraries
 #include "matrix.h"
 #include "model.h"
+#include "camara.h"
 
 // 3-party libraries
 #include <GL/glew.h>
@@ -26,5 +27,8 @@ extern GLint iLocPosition, iLocColor, iLocMVP;
 // Transform matrix and model
 extern Matrix transfromMatrix;
 extern Model *currentModel;
+
+// Camara for view
+extern Camara camara;
 
 #endif

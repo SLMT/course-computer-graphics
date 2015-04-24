@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camara.cpp" />
     <ClCompile Include="event_handler.cpp" />
     <ClCompile Include="glm.c" />
     <ClCompile Include="main.cpp" />
@@ -20,6 +21,7 @@
     <ClCompile Include="textfile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camara.h" />
     <ClInclude Include="glm.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="matrix.h" />

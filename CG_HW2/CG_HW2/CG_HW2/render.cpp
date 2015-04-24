@@ -11,6 +11,9 @@ GLint iLocPosition, iLocColor, iLocMVP;
 Matrix transfromMatrix;
 Model *currentModel = NULL;
 
+// Camara for view
+Camara camara = Camara(0, 0, 0, 0, 0, 1, 0, 1, 0);
+
 
 void onIdle()
 {
@@ -36,9 +39,14 @@ void onRender()
 
 	glUniformMatrix4fv(iLocMVP, 1, GL_FALSE, aMVP);
 	*/
-	Matrix viewTrans = Matrix::generateScaleMatrix(1, 1, -1);
+	// Load indentity
+	Matrix identityMatrix = Matrix();
 
-	currentModel->draw(viewTrans, iLocPosition, iLocColor, iLocMVP);
+	// Multiply view transform
+	identityMatrix.postmultiply(camara.getViewTransform());
+
+	// Render model
+	currentModel->draw(identityMatrix, iLocPosition, iLocColor, iLocMVP);
 
 	glutSwapBuffers();
 }

@@ -3,16 +3,13 @@
 // Our libraries
 #include "main.h"
 
-// 3-party libraries
-#include <freeglut/glut.h>
-
 // Define wheel motion
 #ifndef GLUT_WHEEL_UP
 #define GLUT_WHEEL_UP   0x0003
 #define GLUT_WHEEL_DOWN 0x0004
 #endif
 
-#define DELTA 0.1
+#define DELTA 0.1f
 
 // Transform Mode
 enum TransformMode { translate, rotate, scale };
@@ -38,11 +35,11 @@ void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
 		break;
 	case scale:
 		if (moveX)
-			currentModel->scale(1.0 - value, 1, 1);
+			currentModel->scale(1.0f - value, 1, 1);
 		if (moveY)
-			currentModel->scale(1, 1.0 - value, 1);
+			currentModel->scale(1, 1.0f - value, 1);
 		if (moveZ)
-			currentModel->scale(1, 1, 1.0 - value);
+			currentModel->scale(1, 1, 1.0f - value);
 		break;
 	}
 }
