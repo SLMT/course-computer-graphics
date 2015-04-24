@@ -24,16 +24,16 @@ Model::Model(char *fileName) {
 	_colors = new GLfloat[_numVertices * 9]; // r, g, b per pertex
 
 	// Iterate each triangle
-	for (unsigned i = 0; i < _numTriangles; i++) {
+	for (GLsizei i = 0; i < _numTriangles; i++) {
 		// Save indeices
-		for (unsigned j = 0; j < 3; j++) {
+		for (GLsizei j = 0; j < 3; j++) {
 			// Notice: The indeces in Obj files start from 1
 			_vIndices[i * 3 + j] = (model->triangles[i]).vindices[j] - 1;
 		}
 	}
 
 	// Iterate each vertex
-	for (unsigned i = 0; i < _numVertices; i++) {
+	for (GLsizei i = 0; i < _numVertices; i++) {
 		// Fetch vertex and color
 		for (unsigned j = 0; j < 3; j++) {
 			// Notice: The indeces in Obj files start from 1
@@ -55,7 +55,7 @@ Model::Model(char *fileName) {
 	for (unsigned ci = 0; ci < 3; ci++) {
 		GLfloat max = FLT_MIN, min = FLT_MAX;
 
-		for (unsigned vi = 0; vi < _numVertices; vi++) {
+		for (GLsizei vi = 0; vi < _numVertices; vi++) {
 			GLfloat value = _vertices[vi * 3 + ci];
 
 			if (max < value)
@@ -79,7 +79,7 @@ Model::Model(char *fileName) {
 	for (unsigned ci = 0; ci < 3; ci++) {
 		GLfloat max = -FLT_MAX, min = FLT_MAX;
 
-		for (unsigned vi = 0; vi < _numVertices; vi++) {
+		for (GLsizei vi = 0; vi < _numVertices; vi++) {
 			GLfloat value = _vertices[vi * 3 + ci];
 
 			if (max < value)

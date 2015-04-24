@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "model.h"
 #include "camara.h"
+#include "projection.h"
 
 // 3-party libraries
 #include <GL/glew.h>

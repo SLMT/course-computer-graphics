@@ -17,6 +17,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="projection.cpp" />
     <ClCompile Include="render.cpp" />
     <ClCompile Include="textfile.cpp" />
   </ItemGroup>
@@ -26,6 +27,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="projection.h" />
     <ClInclude Include="textfile.h" />
   </ItemGroup>
   <ItemGroup>

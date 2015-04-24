@@ -1,6 +1,5 @@
 #include <math.h>
 #include <float.h>
-#include <stdio.h>
 
 // Our libraries
 #include "camara.h"
@@ -68,7 +67,7 @@ Matrix Camara::getViewTransform() {
 }
 
 void Camara::calculateTransformMatrix() {
-	GLfloat forward[3], up[3], right[3], realUp[3], tmp;
+	GLfloat forward[3], up[3], right[3], realUp[3];
 	
 	// Calculate forward vector
 	for (int i = 0; i < 3; i++)
@@ -100,5 +99,5 @@ void Camara::calculateTransformMatrix() {
 	// Eye traslation
 	Matrix eyeM = Matrix::generateTranslationMatrix(-_eye[0], -_eye[1], -_eye[2]);
 	_viewTransfrom.postmultiply(eyeM);
-	_viewTransfrom.printOut();
+	//_viewTransfrom.printOut();
 }
