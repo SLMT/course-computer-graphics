@@ -19,15 +19,15 @@ void onIdle()
 
 void onRender()
 {
-	///Example of displaying colorful triangle
 	// clear canvas
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// Eanble arraies
 	glEnableVertexAttribArray(iLocPosition);
 	glEnableVertexAttribArray(iLocColor);
 
-	// Load indentity
+	// Load indentity matrix
 	Matrix identityMatrix = Matrix();
 
 	// Multiply projection transform

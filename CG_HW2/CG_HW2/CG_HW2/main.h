@@ -14,7 +14,7 @@
 
 // Event handlers
 extern void onMouseEvent(int who, int state, int x, int y);
-extern void onMouseMotionEvent(int x, int y);
+extern void onMouseDragEvent(int x, int y);
 extern void onKeyboardEvent(unsigned char key, int x, int y);
 
 // Render functions

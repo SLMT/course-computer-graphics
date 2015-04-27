@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 	glutIdleFunc    (onIdle);
 	glutKeyboardFunc(onKeyboardEvent);
 	glutMouseFunc   (onMouseEvent);
-	glutMotionFunc  (onMouseMotionEvent);
+	glutMotionFunc  (onMouseDragEvent);
 
 	glEnable(GL_DEPTH_TEST);
 

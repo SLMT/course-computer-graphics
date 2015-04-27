@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <float.h>
 
 // Our libraries
 #include "main.h"
@@ -14,6 +15,9 @@
 // Transform Mode
 enum TransformMode { translate, rotate, scale };
 TransformMode transMode = translate;
+
+// Global flags
+int pressX = -1, pressY = -1;
 
 void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
 	switch (transMode) {
@@ -48,27 +52,52 @@ void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
 
 void onMouseEvent(int who, int state, int x, int y)
 {
-	printf("(%d, %d) ", x, y);
-
+	// Which button
 	switch(who){
-	case GLUT_LEFT_BUTTON:   printf("left button   "); break;
-	case GLUT_MIDDLE_BUTTON: printf("middle button "); break;
-	case GLUT_RIGHT_BUTTON:  printf("right button  "); break; 
-	case GLUT_WHEEL_UP:      printf("wheel up      "); break;
-	case GLUT_WHEEL_DOWN:    printf("wheel down    "); break;
-	default:                 printf("%-14d", who);     break;
+	case GLUT_WHEEL_UP:
+		transformModel(false, false, true, DELTA);
+		break;
+	case GLUT_WHEEL_DOWN:
+		transformModel(false, false, true, -DELTA);
+		break;
 	}
 
+	// Button states
 	switch(state){
-	case GLUT_DOWN:          printf("start ");         break;
-	case GLUT_UP:            printf("end   ");         break;
+	case GLUT_DOWN:
+		// Save press position
+		pressX = x;
+		pressY = y;
+		break;
+	case GLUT_UP:
+		break;
 	}
-
-	printf("\n");
 }
 
-void onMouseMotionEvent(int x, int y) {  // callback on mouse drag
-	printf("(%d, %d) mouse move\n", x, y);
+void onMouseDragEvent(int x, int y) {  // callback on mouse drag
+	static int lastX, lastY;
+
+	// Calculate values
+	GLfloat dx = x - lastX;
+	GLfloat dy = y - lastY;
+
+	// Check if it was the first time moving after pressing button
+	if (pressX != -1 && pressY != -1) {
+		dx = x - pressX;
+		dy = y - pressY;
+		pressX = -1;
+		pressY = -1;
+	}
+
+	// Transaform
+	if (dx > 0 + FLT_EPSILON || dx < 0 - FLT_EPSILON)
+		transformModel(true, false, false, dx / 500);
+	if (dy > 0 + FLT_EPSILON || dy < 0 - FLT_EPSILON)
+		transformModel(false, true, false, -dy / 500);
+
+	// Save the location
+	lastX = x;
+	lastY = y;
 }
 
 void onKeyboardEvent(unsigned char key, int x, int y) {
