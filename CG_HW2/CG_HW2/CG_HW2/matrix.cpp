@@ -29,8 +29,8 @@ Matrix Matrix::generateRotationMatrix(GLfloat theta, GLfloat x, GLfloat y, GLflo
 	Matrix matrix = Matrix();
 
 	// TODO: Use glRotate Matrix
-	GLfloat sinTheta = sin(theta * PI / 180);
-	GLfloat cosTheta = cos(theta * PI / 180);
+	GLfloat sinTheta = (GLfloat) sin(theta * PI / 180);
+	GLfloat cosTheta = (GLfloat) cos(theta * PI / 180);
 	
 	GLfloat rotate[4][4] = {
 		{1, 0, 0, 0},

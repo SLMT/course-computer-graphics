@@ -3,10 +3,6 @@
 // Our libraries
 #include "main.h"
 
-char filename[] = "ColorModels/bunny5KC.obj";
-//char filename[] = "ColorModels/boxC.obj";
-//char filename[] = "ColorModels/triangleC.obj";
-
 int main(int argc, char **argv) {
 	// glut init
 	glutInit(&argc, argv);
@@ -26,8 +22,8 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 
-	// load models through glm
-	currentModel = new Model(filename);
+	// load world
+	world = new World();
 
 	// register glut callback functions
 	glutDisplayFunc (onRender);
@@ -44,7 +40,7 @@ int main(int argc, char **argv) {
 	// main loop
 	glutMainLoop();
 
-	delete currentModel;
+	delete world;
 
 	return 0;
 }

@@ -6,6 +6,7 @@
 #include "model.h"
 #include "camara.h"
 #include "projection.h"
+#include "world.h"
 
 // 3-party libraries
 #include <GL/glew.h>
@@ -27,7 +28,7 @@ extern GLint iLocPosition, iLocColor, iLocMVP;
 
 // Transform matrix and model
 extern Matrix transfromMatrix;
-extern Model *currentModel;
+extern World *world;
 
 // Camara for view
 extern Camara camara;

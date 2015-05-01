@@ -20,6 +20,7 @@ TransformMode transMode = translate;
 int pressX = -1, pressY = -1;
 
 void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
+	/*
 	switch (transMode) {
 	case translate:
 		if (moveX)
@@ -46,6 +47,7 @@ void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
 			currentModel->scale(1, 1, 1.0f - value);
 		break;
 	}
+	*/
 }
 
 
@@ -78,13 +80,13 @@ void onMouseDragEvent(int x, int y) {  // callback on mouse drag
 	static int lastX, lastY;
 
 	// Calculate values
-	GLfloat dx = x - lastX;
-	GLfloat dy = y - lastY;
+	GLfloat dx = (GLfloat) (x - lastX);
+	GLfloat dy = (GLfloat) (y - lastY);
 
 	// Check if it was the first time moving after pressing button
 	if (pressX != -1 && pressY != -1) {
-		dx = x - pressX;
-		dy = y - pressY;
+		dx = (GLfloat) (x - pressX);
+		dy = (GLfloat) (y - pressY);
 		pressX = -1;
 		pressY = -1;
 	}
@@ -104,36 +106,6 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 	switch(key) {
 		case 27: /* the Esc key */ 
 			exit(0); 
-			break;
-		// X++
-		case 'Q':
-		case'q':
-			transformModel(true, false, false, DELTA);
-			break;
-		// X--
-		case 'A':
-		case'a':
-			transformModel(true, false, false, -DELTA);
-			break;
-		// Y++
-		case 'W':
-		case'w':
-			transformModel(false, true, false, DELTA);
-			break;
-		// Y--
-		case 'S':
-		case's':
-			transformModel(false, true, false, -DELTA);
-			break;
-		// Z++
-		case 'E':
-		case'e':
-			transformModel(false, false, true, DELTA);
-			break;
-		// Z--
-		case 'D':
-		case'd':
-			transformModel(false, false, true, -DELTA);
 			break;
 		// Switch transform mode
 		case 'T':

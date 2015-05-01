@@ -8,9 +8,9 @@
 GLint iLocPosition, iLocColor, iLocMVP;
 
 // Model, View and projection
-Model *currentModel = NULL;
+World *world = NULL;
 Camara camara = Camara(0, 0, 3, 0, 0, 0, 0, 1, 0);
-Projection project = Projection(true, -0.5, 0.5, -0.5, 0.5, 1, 10);
+Projection project = Projection(false, -5, 5, -5, 5, 1, 10);
 
 void onIdle()
 {
@@ -36,8 +36,8 @@ void onRender()
 	// Multiply view transform
 	identityMatrix.postmultiply(camara.getViewTransform());
 
-	// Render model
-	currentModel->draw(identityMatrix, iLocPosition, iLocColor, iLocMVP);
+	// Render world
+	world->draw(identityMatrix, iLocPosition, iLocColor, iLocMVP);
 
 	glutSwapBuffers();
 }
