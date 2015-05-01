@@ -179,7 +179,7 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		// Camara transform
 		case 'E':
 		case 'e':
-			if (!isCamControl || (isCamControl && transMode != CAM_EYE)) {
+			if (!isCamControl || (isCamControl && camaraControlMode != CAM_EYE)) {
 				isCamControl = true;
 				camaraControlMode = CAM_EYE;
 				printf("Switch to camara eye control mode.\n");
@@ -187,7 +187,7 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 			break;
 		case 'C':
 		case 'c':
-			if (!isCamControl || (isCamControl && transMode != CAM_CEN)) {
+			if (!isCamControl || (isCamControl && camaraControlMode != CAM_CEN)) {
 				isCamControl = true;
 				camaraControlMode = CAM_CEN;
 				printf("Switch to camara center control mode.\n");
@@ -195,16 +195,16 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 			break;
 		case 'U':
 		case 'u':
-			if (!isCamControl || (isCamControl && transMode != CAM_UP)) {
+			if (!isCamControl || (isCamControl && camaraControlMode != CAM_UP)) {
 				isCamControl = true;
 				camaraControlMode = CAM_UP;
 				printf("Switch to camara up vector control mode.\n");
 			}
 			break;
 
-		// Switch view mode
-		case 'V':
-		case 'v':
+		// Switch projection mode
+		case 'P':
+		case 'p':
 			project.toggleProjectionMode();
 			printf("Toggle projection mode.\n", modelIndex);
 			break;
@@ -236,7 +236,7 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 			printf("C: Center Control Mode\n");
 			printf("U: Up Vector Control Mode\n");
 			printf("- Other Commands -\n");
-			printf("V: Toggle View Transform mode\n");
+			printf("P: Toggle Projection Mode\n");
 			printf("Enter: Reset Camara or Model\n");
 			printf("H: Help List\n");
 			break;

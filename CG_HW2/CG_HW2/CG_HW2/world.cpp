@@ -4,11 +4,11 @@
 World::World() {
 
 	// Load models
-	_models[0] = new Model("ColorModels/boxC.obj");
+	_models[0] = new Model("ColorModels/brain18KC.obj");
 	_models[1] = new Model("ColorModels/bunny5KC.obj");
 	_models[2] = new Model("ColorModels/dragon10KC.obj");
 	_models[3] = new Model("ColorModels/lucy25KC.obj");
-	_models[4] = new Model("ColorModels/triangleC.obj");
+	_models[4] = new Model("ColorModels/texturedknot11KC.obj");
 	
 	// Transform models
 	_models[1]->translate(3, 3, 0);
