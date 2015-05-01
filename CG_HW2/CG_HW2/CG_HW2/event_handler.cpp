@@ -37,9 +37,9 @@ void transformModel(bool moveX, bool moveY, bool moveZ, GLfloat value) {
 		break;
 	case TRANS_ROT:
 		if (moveX)
-			world->getModel(modelIndex)->rotate(value * 10, 1, 0, 0);
-		if (moveY)
 			world->getModel(modelIndex)->rotate(value * 10, 0, 1, 0);
+		if (moveY)
+			world->getModel(modelIndex)->rotate(value * 10, 1, 0, 0);
 		if (moveZ)
 			world->getModel(modelIndex)->rotate(value * 10, 0, 0, 1);
 		break;

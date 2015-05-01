@@ -28,14 +28,16 @@ Matrix Matrix::generateTranslationMatrix(GLfloat dx, GLfloat dy, GLfloat dz) {
 Matrix Matrix::generateRotationMatrix(GLfloat theta, GLfloat x, GLfloat y, GLfloat z) {
 	Matrix matrix = Matrix();
 
-	// TODO: Use glRotate Matrix
 	GLfloat sinTheta = (GLfloat) sin(theta * PI / 180);
 	GLfloat cosTheta = (GLfloat) cos(theta * PI / 180);
+	GLfloat xs = x * sinTheta;
+	GLfloat ys = y * sinTheta;
+	GLfloat zs = z * sinTheta;
 	
 	GLfloat rotate[4][4] = {
-		{1, 0, 0, 0},
-		{0, cosTheta, -sinTheta, 0},
-		{0, sinTheta, cosTheta, 0},
+		{x * x * (1 - cosTheta) + cosTheta, x * y * (1 - cosTheta) - zs, x * z * (1 - cosTheta) + ys, 0},
+		{y * x * (1 - cosTheta) + zs, y * y * (1 - cosTheta) + cosTheta, y * z * (1 - cosTheta) - xs, 0},
+		{x * z * (1 - cosTheta) - ys, y * z * (1 - cosTheta) + xs, z * z * (1 - cosTheta) + cosTheta, 0},
 		{0, 0, 0, 1}
 	};
 	matrix.postmultiply(rotate);
