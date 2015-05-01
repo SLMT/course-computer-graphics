@@ -20,6 +20,11 @@ public:
 	void translate(GLfloat dx, GLfloat dy, GLfloat dz);
 	void rotate(GLfloat theta, GLfloat x, GLfloat y, GLfloat z);
 	void scale(GLfloat sx, GLfloat sy, GLfloat sz);
+	inline void reset() {
+		_translation = Matrix();
+		_rotation = Matrix();
+		_scale = Matrix();
+	}
 
 	// Render function
 	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);

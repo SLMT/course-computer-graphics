@@ -48,18 +48,24 @@ void Camara::moveEye(GLfloat dx, GLfloat dy, GLfloat dz) {
 	_eye[0] += dx;
 	_eye[1] += dy;
 	_eye[2] += dz;
+
+	calculateTransformMatrix();
 }
 
 void Camara::moveCenter(GLfloat dx, GLfloat dy, GLfloat dz) {
 	_center[0] += dx;
 	_center[1] += dy;
 	_center[2] += dz;
+
+	calculateTransformMatrix();
 }
 
 void Camara::moveUp(GLfloat dx, GLfloat dy, GLfloat dz) {
 	_up[0] += dx;
 	_up[1] += dy;
 	_up[2] += dz;
+
+	calculateTransformMatrix();
 }
 
 Matrix Camara::getViewTransform() {

@@ -22,8 +22,12 @@ Projection::Projection(bool isPerspective,
 		orthoProject();
 }
 
-Matrix Projection::getProjectTransfrom() {
-	return _projectTransfrom;
+void Projection::toggleProjectionMode() {
+	isPerspective = !isPerspective;
+	if (isPerspective)
+		perspectiveProject();
+	else
+		orthoProject();
 }
 
 void Projection::orthoProject() {

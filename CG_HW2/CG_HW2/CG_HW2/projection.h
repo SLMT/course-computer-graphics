@@ -17,7 +17,12 @@ public:
 		GLfloat near, GLfloat far);
 
 	// Getter
-	Matrix getProjectTransfrom();
+	inline Matrix getProjectTransfrom() {
+		return _projectTransfrom;
+	}
+
+	// Toggle functions
+	void toggleProjectionMode();
 
 private:
 

@@ -26,9 +26,12 @@ extern void setShaders();
 // Shader attributes
 extern GLint iLocPosition, iLocColor, iLocMVP;
 
-// Transform matrix and model
+// Render objects
 extern Matrix transfromMatrix;
 extern World *world;
+extern const Camara DEFAULT_CAMARA;
+extern Camara camara;
+extern Projection project;
 
 // Camara for view
 extern Camara camara;
