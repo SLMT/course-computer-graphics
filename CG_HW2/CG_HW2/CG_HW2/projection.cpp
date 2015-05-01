@@ -1,7 +1,7 @@
 // Our libraries
 #include "projection.h"
 
-// Orthogonal Projection Constructor
+// Projection Constructor
 Projection::Projection(bool isPerspective,
 		GLfloat left, GLfloat right,
 		GLfloat bottom, GLfloat top,
