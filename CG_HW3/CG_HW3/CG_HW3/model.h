@@ -7,6 +7,20 @@
 // 3-party libraries
 #include <GL/glew.h>
 
+typedef struct s_material_group {
+	// Vertex Info
+	GLfloat *vertices, *normals;
+	GLuint numTriangles;
+
+	// Material Info
+	GLfloat diffuse[4];
+	GLfloat ambient[4];
+	GLfloat specular[4];
+	GLfloat emmissive[4];
+	GLfloat shininess;
+} MaterialGroup;
+
+
 class Model {
 public:
 
@@ -27,14 +41,13 @@ public:
 	}
 
 	// Render function
-	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
+	void draw(Matrix transformMatrix, GLint shVertices, GLint shNormals, GLint shMvpLoc);
 
 private:
 
 	// Model data
-	GLuint *_vIndices;
-	GLfloat *_vertices, *_colors;
-	GLsizei _numTriangles, _numVertices;
+	MaterialGroup *_groups;
+	GLuint _numGroups;
 
 	// Matrixes for rendering
 	Matrix _normalize;

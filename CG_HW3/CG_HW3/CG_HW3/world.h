@@ -8,30 +8,33 @@
 // 3-party libraries
 #include <GL/glew.h>
 
+#ifndef NUM_MODELS
+#define NUM_MODELS 5
+#endif
+
 class World {
 public:
 
 	// Constructor
 	World();
 
+	// World Control
+	inline void nextModel() {
+		_currentModelIndex = (_currentModelIndex + 1) % NUM_MODELS;
+	}
+
 	// Getters
-	inline Model* getModel(int index) {
-		return _models[index];
+	inline Model* getCurrentModel() {
+		return _models[_currentModelIndex];
 	}
-
-	inline int getModelCount() {
-		return 5;
-	}
-
-	// Reset function
-	void resetModelTransfrom(int index);
 
 	// Render function
 	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
 
 private:
 
-	Model *_models[5];
+	unsigned _currentModelIndex = 0;
+	Model *_models[NUM_MODELS];
 };
 
 #endif

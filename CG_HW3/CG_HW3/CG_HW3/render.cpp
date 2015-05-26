@@ -28,7 +28,7 @@ void onRender()
 	glEnableVertexAttribArray(iLocPosition);
 	glEnableVertexAttribArray(iLocColor);
 
-	// Load indentity matrix
+	// Load an indentity matrix
 	Matrix identityMatrix = Matrix();
 
 	// Multiply projection transform
