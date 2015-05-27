@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEPTH_TEST);
 
 	// set up shaders here
-	setShaders();
+	initShaders();
 
 	// main loop
 	glutMainLoop();

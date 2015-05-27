@@ -12,8 +12,8 @@ World::World() {
 	_models[5] = new Model("NormalModels/High/lucy25KN.obj");
 }
 
-void World::draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc) {
+void World::draw(Matrix transformMatrix, ShaderPointers shPos) {
 	// Draw each model
 	for (int i = 0; i < 5; i++)
-		_models[i]->draw(transformMatrix, shPosLoc, shColLoc, shMvpLoc);
+		_models[i]->draw(transformMatrix, shPos);
 }

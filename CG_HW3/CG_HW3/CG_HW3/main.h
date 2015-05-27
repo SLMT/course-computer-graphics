@@ -2,6 +2,7 @@
 #define MAIN_H
 
 // Our libraries
+#include "shader.h"
 #include "matrix.h"
 #include "model.h"
 #include "camara.h"
@@ -21,10 +22,10 @@ extern void onKeyboardEvent(unsigned char key, int x, int y);
 // Render functions
 extern void onIdle();
 extern void onRender();
-extern void setShaders();
+extern void initShaders();
 
 // Shader attributes
-extern GLint iLocPosition, iLocColor, iLocMVP;
+extern ShaderPointers pointers;
 
 // Render objects
 extern Matrix transfromMatrix;

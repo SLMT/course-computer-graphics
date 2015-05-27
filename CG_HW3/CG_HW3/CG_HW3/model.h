@@ -2,6 +2,7 @@
 #define MODEL_H
 
 // Our libraries
+#include "shader.h"
 #include "matrix.h"
 
 // 3-party libraries
@@ -41,7 +42,7 @@ public:
 	}
 
 	// Render function
-	void draw(Matrix transformMatrix, GLint shVertices, GLint shNormals, GLint shMvpLoc);
+	void draw(Matrix transformMatrix, ShaderPointers shPos);
 
 private:
 

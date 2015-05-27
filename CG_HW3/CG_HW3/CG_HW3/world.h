@@ -2,6 +2,7 @@
 #define WORLD_H
 
 // Our libraries
+#include "shader.h"
 #include "matrix.h"
 #include "model.h"
 
@@ -29,7 +30,7 @@ public:
 	}
 
 	// Render function
-	void draw(Matrix transformMatrix, GLint shPosLoc, GLint shColLoc, GLint shMvpLoc);
+	void draw(Matrix transformMatrix, ShaderPointers shPos);
 
 private:
 

@@ -171,7 +171,7 @@ void Model::scale(GLfloat sx, GLfloat sy, GLfloat sz) {
 	_scale.postmultiply(s);
 }
 
-void Model::draw(Matrix transformMatrix, GLint shVertices, GLint shNormals, GLint shMvpLoc) {
+void Model::draw(Matrix transformMatrix, ShaderPointers shPos) {
 	GLfloat mvp[16];
 
 	// Calculate MVP
@@ -183,9 +183,9 @@ void Model::draw(Matrix transformMatrix, GLint shVertices, GLint shNormals, GLin
 	transformMatrix.outputAsColumnMajor(mvp);
 
 	// Pass matrix and array pointers
-	glVertexAttribPointer(shVertices, 3, GL_FLOAT, GL_FALSE, 0, _vertices);
-	glVertexAttribPointer(shNormals, 3, GL_FLOAT, GL_FALSE, 0, _colors);
-	glUniformMatrix4fv(shMvpLoc, 1, GL_FALSE, mvp);
+	glVertexAttribPointer(shPos.vertexPos, 3, GL_FLOAT, GL_FALSE, 0, _vertices);
+	glVertexAttribPointer(shPos.vertexNor, 3, GL_FLOAT, GL_FALSE, 0, _colors);
+	glUniformMatrix4fv(shPos.mvp, 1, GL_FALSE, mvp);
 
 	// draw the array we just bound
 	glDrawElements(GL_TRIANGLES, _numTriangles * 3, GL_UNSIGNED_INT, (GLvoid*)_vIndices);

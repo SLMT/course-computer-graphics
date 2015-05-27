@@ -4,8 +4,8 @@
 // Our libraries
 #include "main.h"
 
-// Shader attributes
-GLint iLocPosition, iLocColor, iLocMVP;
+// Shader pointers
+ShaderPointers pointers;
 
 // Model, View and projection
 World *world = NULL;
@@ -25,20 +25,20 @@ void onRender()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Eanble arraies
-	glEnableVertexAttribArray(iLocPosition);
-	glEnableVertexAttribArray(iLocColor);
+	glEnableVertexAttribArray(pointers.vertexPos);
+	glEnableVertexAttribArray(pointers.vertexNor);
 
 	// Load an indentity matrix
-	Matrix identityMatrix = Matrix();
+	Matrix mvp = Matrix();
 
 	// Multiply projection transform
-	identityMatrix.postmultiply(project.getProjectTransfrom());
+	mvp.postmultiply(project.getProjectTransfrom());
 
 	// Multiply view transform
-	identityMatrix.postmultiply(camara.getViewTransform());
+	mvp.postmultiply(camara.getViewTransform());
 
 	// Render world
-	world->draw(identityMatrix, iLocPosition, iLocColor, iLocMVP);
+	world->draw(mvp, pointers);
 
 	glutSwapBuffers();
 }
@@ -60,7 +60,7 @@ void showShaderCompileStatus(GLuint shader, GLint *shaderCompiled){
 	}
 }
 
-void setShaders()
+void initShaders()
 {
 	GLuint v, f, p;
 	char *vs = NULL;
@@ -99,9 +99,28 @@ void setShaders()
 	// link program
 	glLinkProgram(p);
 
-	iLocPosition = glGetAttribLocation (p, "av4position");
-	iLocColor    = glGetAttribLocation (p, "av3color");
-	iLocMVP		 = glGetUniformLocation(p, "mvp");
+	// link shader attributes and unifroms
+	pointers.vertexPos = glGetAttribLocation(p, "av4position");
+	pointers.vertexNor = glGetAttribLocation(p, "av3normal");
+	pointers.mvp = glGetUniformLocation(p, "mvp");
+
+	pointers.matAmb = glGetUniformLocation(p, "Material.ambient");
+	pointers.matDiff = glGetUniformLocation(p, "Material.diffuse");
+	pointers.matSpec = glGetUniformLocation(p, "Material.specular");
+	pointers.matShin = glGetUniformLocation(p, "Material.shininess");
+	
+	pointers.lightAmb = glGetUniformLocation(p, "LightSource.ambient");
+	pointers.lightDiff = glGetUniformLocation(p, "LightSource.diffuse");
+	pointers.lightSpec = glGetUniformLocation(p, "LightSource.specular");
+	pointers.lightPos = glGetUniformLocation(p, "LightSource.position");
+	pointers.lightHalfVec = glGetUniformLocation(p, "LightSource.halfVector");
+	pointers.lightSpotDir = glGetUniformLocation(p, "LightSource.spotDirection");
+	pointers.lightSpotExp = glGetUniformLocation(p, "LightSource.spotExponent");
+	pointers.lightSpotCut = glGetUniformLocation(p, "LightSource.spotCutoff");
+	pointers.lightSpotCos = glGetUniformLocation(p, "LightSource.spotCosCutoff");
+	pointers.lightConsAtt = glGetUniformLocation(p, "LightSource.constantAttenuation");
+	pointers.lightLinAtt = glGetUniformLocation(p, "LightSource.linearAttenuation");
+	pointers.lightQuadAtt = glGetUniformLocation(p, "LightSource.quadraticAttenuation");
 
 	glUseProgram(p);
 }
