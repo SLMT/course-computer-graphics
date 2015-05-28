@@ -1,5 +1,3 @@
-precision lowp float;
-
 struct LightSourceParameters {
 	vec4 ambient;
 	vec4 diffuse;

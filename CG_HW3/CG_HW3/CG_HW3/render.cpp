@@ -11,7 +11,7 @@ ShaderPointers pointers;
 World *world = NULL;
 const Camara DEFAULT_CAMARA = Camara(0, 0, 3, 0, 0, 0, 0, 1, 0);
 Camara camara = DEFAULT_CAMARA;
-Projection project = Projection(false, -5, 5, -5, 5, 1, 10);
+Projection project = Projection(false, -1.5, 1.5, -1.5, 1.5, 1, 10);
 
 void onIdle()
 {
@@ -36,6 +36,16 @@ void onRender()
 
 	// Multiply view transform
 	mvp.postmultiply(camara.getViewTransform());
+
+	// Light source hack
+	GLfloat a[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat d[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat s[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat pos[] = {1.0f, 1.0f, 1.0f, 0.0f};
+	glUniform4fv(pointers.lightAmb, 1, a);
+	glUniform4fv(pointers.lightDiff, 1, d);
+	glUniform4fv(pointers.lightSpec, 1, s);
+	glUniform4fv(pointers.lightPos, 1, pos);
 
 	// Render world
 	world->draw(mvp, pointers);

@@ -34,7 +34,7 @@ public:
 
 private:
 
-	unsigned _currentModelIndex = 0;
+	unsigned _currentModelIndex;
 	Model *_models[NUM_MODELS];
 };
 

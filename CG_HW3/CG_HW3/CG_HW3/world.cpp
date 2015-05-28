@@ -3,6 +3,9 @@
 
 World::World() {
 
+	// Initialize variables
+	_currentModelIndex = 0;
+
 	// Load models
 	_models[0] = new Model("NormalModels/Low/boxN.obj");
 	_models[1] = new Model("NormalModels/Low/dolphinN.obj");
@@ -14,6 +17,5 @@ World::World() {
 
 void World::draw(Matrix transformMatrix, ShaderPointers shPos) {
 	// Draw each model
-	for (int i = 0; i < 5; i++)
-		_models[i]->draw(transformMatrix, shPos);
+	_models[_currentModelIndex]->draw(transformMatrix, shPos);
 }

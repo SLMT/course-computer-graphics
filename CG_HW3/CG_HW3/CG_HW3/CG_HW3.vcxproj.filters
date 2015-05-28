@@ -71,5 +71,16 @@
     <ClInclude Include="world.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.vert">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader.frag">
+      <Filter>資源檔</Filter>
+    </None>
   </ItemGroup>
 </Project>

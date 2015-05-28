@@ -1,4 +1,5 @@
 #include <float.h>
+#include <stdio.h>
 
 // Our libraries
 #include "model.h"
@@ -7,7 +8,7 @@
 #include "GLM.h"
 
 void copyData(unsigned count, GLfloat *from, GLfloat *to) {
-	for (int i = 0; i < count; i++)
+	for (unsigned i = 0; i < count; i++)
 		to[i] = from[i];
 }
 
@@ -25,8 +26,9 @@ Model::Model(char *fileName) {
 	_groups = new MaterialGroup[_numGroups];
 
 	// Traverse groups
-	for (GLMgroup* group = model->groups, unsigned groupIndex = 0;
-	group; group = group->next, groupIndex++) {
+	GLMgroup* group = model->groups;
+	for (unsigned groupIndex = 0; groupIndex < _numGroups;
+			group = group->next, groupIndex++) {
 		// Get material data
 		GLuint matIndex = group->material;
 		GLMmaterial mat = model->materials[matIndex];
@@ -36,6 +38,7 @@ Model::Model(char *fileName) {
 		copyData(4, mat.specular, _groups[groupIndex].specular);
 		copyData(4, mat.emmissive, _groups[groupIndex].emmissive);
 		_groups[groupIndex].shininess = mat.shininess;
+		printf("shininess: %f\n", mat.shininess);
 
 		// Allocate memory for vertices and normals
 		GLuint numTri = group->numtriangles;
@@ -182,11 +185,21 @@ void Model::draw(Matrix transformMatrix, ShaderPointers shPos) {
 	transformMatrix.postmultiply(_normalize);
 	transformMatrix.outputAsColumnMajor(mvp);
 
-	// Pass matrix and array pointers
-	glVertexAttribPointer(shPos.vertexPos, 3, GL_FLOAT, GL_FALSE, 0, _vertices);
-	glVertexAttribPointer(shPos.vertexNor, 3, GL_FLOAT, GL_FALSE, 0, _colors);
+	// Pass matrix to the shader
 	glUniformMatrix4fv(shPos.mvp, 1, GL_FALSE, mvp);
+	
+	// For each material groups
+	for (int i = 0; i < _numGroups; i++) {
+		// Pass arrays and attributes to the shader
+		glVertexAttribPointer(shPos.vertexPos, 3, GL_FLOAT, GL_FALSE, 0, _groups[i].vertices);
+		glVertexAttribPointer(shPos.vertexNor, 3, GL_FLOAT, GL_FALSE, 0, _groups[i].normals);
 
-	// draw the array we just bound
-	glDrawElements(GL_TRIANGLES, _numTriangles * 3, GL_UNSIGNED_INT, (GLvoid*)_vIndices);
+		glUniform4fv(shPos.matAmb, 1, _groups[i].ambient);
+		glUniform4fv(shPos.matDiff, 1, _groups[i].diffuse);
+		glUniform4fv(shPos.matSpec, 1, _groups[i].specular);
+		glUniform1f(shPos.matShin, _groups[i].shininess);
+	
+		// draw the array we just bound
+		glDrawArrays(GL_TRIANGLES, 0, _groups[i].numTriangles * 3);
+	}
 }

@@ -95,8 +95,13 @@
     <ClInclude Include="matrix.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="projection.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="world.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.frag" />
+    <None Include="shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

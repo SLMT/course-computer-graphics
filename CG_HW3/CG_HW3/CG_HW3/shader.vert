@@ -33,20 +33,24 @@ varying vec4 vv4ambient, vv4diffuse;
 varying vec3 vv3normal, vv3halfVector;
 
 void main() {
-
-	
-	vec4 color=(0,0,0,0);
-
-	
-	
-
-	/* Compute the ambient terms */
-	vv4ambient = Material.ambient * LightSource.ambient;
-	
-	color= vv4ambient;
-	
-	vv4color=color;
-	
+	// Position
 	gl_Position = mvp * av4position;
-}
 
+	// Compute the ambient term
+	vec4 ambient = Material.ambient * LightSource.ambient;
+
+	// Compute the diffuse term
+	vec3 L = normalize((LightSource.position - av4position).xyz);
+	vec3 N = normalize(av3normal);
+	vec4 diffuse = Material.diffuse * dot(N, L);
+
+	// Compute the specular term
+	vec4 specular = vec4(0.0, 0.0, 0.0, 0.0);
+	if (Material.shininess != 0) {
+		vec3 H = normalize(L - normalize(gl_Position.xyz));
+		float specAngle = max(dot(N, H), 0.0);
+		specular = Material.specular * pow(specAngle, Material.shininess);
+	}
+
+	vv4color = ambient + LightSource.diffuse * (diffuse + specular);
+}
