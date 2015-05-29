@@ -80,6 +80,7 @@
     <ClCompile Include="camara.cpp" />
     <ClCompile Include="event_handler.cpp" />
     <ClCompile Include="glm.c" />
+    <ClCompile Include="light_source.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="model.cpp" />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="camara.h" />
     <ClInclude Include="glm.h" />
+    <ClInclude Include="light_source.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="model.h" />

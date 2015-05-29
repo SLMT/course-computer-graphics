@@ -8,6 +8,7 @@
 #include "camara.h"
 #include "projection.h"
 #include "world.h"
+#include "light_source.h"
 
 // 3-party libraries
 #include <GL/glew.h>

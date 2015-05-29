@@ -40,17 +40,19 @@ void main() {
 	vec4 ambient = Material.ambient * LightSource.ambient;
 
 	// Compute the diffuse term
-	vec3 L = normalize((LightSource.position - av4position).xyz);
+	vec3 L = normalize((LightSource.position - gl_Position).xyz);
 	vec3 N = normalize(av3normal);
-	vec4 diffuse = Material.diffuse * dot(N, L);
+	vec4 diffuse = Material.diffuse * LightSource.diffuse * max(dot(N, L), 0.0);
+	diffuse = clamp(diffuse, 0.0, 1.0);
 
 	// Compute the specular term
+	vec3 E = normalize(-gl_Position.xyz);
+	vec3 R = normalize(-reflect(L, N));
 	vec4 specular = vec4(0.0, 0.0, 0.0, 0.0);
-	if (Material.shininess != 0) {
-		vec3 H = normalize(L - normalize(gl_Position.xyz));
-		float specAngle = max(dot(N, H), 0.0);
-		specular = Material.specular * pow(specAngle, Material.shininess);
-	}
+	if (Material.shininess > 0.0)
+		specular = Material.specular * LightSource.specular *
+			pow(max(dot(R, E), 0.0), 0.3 * Material.shininess);
+	specular = clamp(specular, 0.0, 1.0);
 
-	vv4color = ambient + LightSource.diffuse * (diffuse + specular);
+	vv4color = ambient + diffuse + specular;
 }
