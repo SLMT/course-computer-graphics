@@ -4,24 +4,15 @@
 // Our libraries
 #include "main.h"
 
-// Define wheel motion
-#ifndef GLUT_WHEEL_UP
-	#define GLUT_WHEEL_UP   0x0003
-	#define GLUT_WHEEL_DOWN 0x0004
-#endif
-
-#define DELTA 0.1f
-
 // Flags
-int pressX = -1, pressY = -1;
 unsigned selectedLight = 0;
 
 void onMouseEvent(int who, int state, int x, int y) {
-	
+	// Do nothing
 }
 
-void onMouseDragEvent(int x, int y) {  // callback on mouse drag
-	
+void onMouseDragEvent(int x, int y) {
+	// Do nothing
 }
 
 void onKeyboardEvent(unsigned char key, int x, int y) {
@@ -94,6 +85,24 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		case 'V':
 		case 'v':
 			world->getLigthSource(2)->adjustSpotCutoff(-0.05);
+			break;
+
+		// Help
+		case 'H':
+		case 'h':
+			printf("==================== Help ====================\n");
+			printf("Select the light source first,\n");
+			printf("I: Directional Light Source\n");
+			printf("O: Point Light Source\n");
+			printf("P: Spot Light Source\n\n");
+			printf("then use the follwing controls: \n");
+			printf("A/D: Move left/right\n");
+			printf("W/S: Move up/down\n");
+			printf("L: Turn on/off the selected light source\n");
+			printf("Z/X: Adjust the exponent value of spot light\n");
+			printf("C/V: Adjust the cutoff value of spot light\n\n");
+			printf("M: Next model\n");
+			printf("H: Help List\n");
 			break;
 	}
 }

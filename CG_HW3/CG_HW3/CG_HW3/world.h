@@ -11,7 +11,7 @@
 #include <GL/glew.h>
 
 #ifndef NUM_MODELS
-#define NUM_MODELS 6
+#define NUM_MODELS 34
 #endif
 
 #ifndef NUM_LIGHTS
