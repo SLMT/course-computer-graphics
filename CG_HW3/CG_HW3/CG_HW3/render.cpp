@@ -104,23 +104,28 @@ void initShaders()
 	pointers.vertexNor = glGetAttribLocation(p, "av3normal");
 	pointers.mvp = glGetUniformLocation(p, "mvp");
 
-	pointers.matAmb = glGetUniformLocation(p, "Material.ambient");
-	pointers.matDiff = glGetUniformLocation(p, "Material.diffuse");
-	pointers.matSpec = glGetUniformLocation(p, "Material.specular");
-	pointers.matShin = glGetUniformLocation(p, "Material.shininess");
+	pointers.matAmb = glGetUniformLocation(p, "material.ambient");
+	pointers.matDiff = glGetUniformLocation(p, "material.diffuse");
+	pointers.matSpec = glGetUniformLocation(p, "material.specular");
+	pointers.matShin = glGetUniformLocation(p, "material.shininess");
 	
-	pointers.lightAmb = glGetUniformLocation(p, "LightSource.ambient");
-	pointers.lightDiff = glGetUniformLocation(p, "LightSource.diffuse");
-	pointers.lightSpec = glGetUniformLocation(p, "LightSource.specular");
-	pointers.lightPos = glGetUniformLocation(p, "LightSource.position");
-	pointers.lightHalfVec = glGetUniformLocation(p, "LightSource.halfVector");
-	pointers.lightSpotDir = glGetUniformLocation(p, "LightSource.spotDirection");
-	pointers.lightSpotExp = glGetUniformLocation(p, "LightSource.spotExponent");
-	pointers.lightSpotCut = glGetUniformLocation(p, "LightSource.spotCutoff");
-	pointers.lightSpotCos = glGetUniformLocation(p, "LightSource.spotCosCutoff");
-	pointers.lightConsAtt = glGetUniformLocation(p, "LightSource.constantAttenuation");
-	pointers.lightLinAtt = glGetUniformLocation(p, "LightSource.linearAttenuation");
-	pointers.lightQuadAtt = glGetUniformLocation(p, "LightSource.quadraticAttenuation");
+	pointers.dirEnabled = glGetUniformLocation(p, "lights.dirEnabled");
+	pointers.dirDirection = glGetUniformLocation(p, "lights.dirDirection");
+	pointers.dirAmbient = glGetUniformLocation(p, "lights.dirAmbient");
+	pointers.dirColor = glGetUniformLocation(p, "lights.dirColor");
+
+	pointers.posEnabled = glGetUniformLocation(p, "lights.posEnabled");
+	pointers.posPosition = glGetUniformLocation(p, "lights.posPosition");
+	pointers.posAmbient = glGetUniformLocation(p, "lights.posAmbient");
+	pointers.posColor = glGetUniformLocation(p, "lights.posColor");
+
+	pointers.spotEnabled = glGetUniformLocation(p, "lights.spotEnabled");
+	pointers.spotPosition = glGetUniformLocation(p, "lights.spotPosition");
+	pointers.spotAmbient = glGetUniformLocation(p, "lights.spotAmbient");
+	pointers.spotColor = glGetUniformLocation(p, "lights.spotColor");
+	pointers.spotDirection = glGetUniformLocation(p, "lights.spotDirection");
+	pointers.spotExponent = glGetUniformLocation(p, "lights.spotExponent");
+	pointers.spotCosCutoff = glGetUniformLocation(p, "lights.spotCosCutoff");
 
 	glUseProgram(p);
 }

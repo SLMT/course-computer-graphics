@@ -1,16 +1,24 @@
 struct LightSourceParameters {
-	vec4 ambient;
-	vec4 diffuse;
-	vec4 specular;
-	vec4 position;
-	vec4 halfVector;
-	vec3 spotDirection;
+	// Directional Light
+	bool dirEnabled;
+	vec4 dirDirection;
+	vec4 dirAmbient;
+	vec4 dirColor;
+
+	// Positional Light
+	bool posEnabled;
+	vec4 posPosition;
+	vec4 posAmbient;
+	vec4 posColor;
+
+	// Spot Light
+	bool spotEnabled;
+	vec4 spotPos;
+	vec4 spotAmbient;
+	vec4 spotColor;
 	float spotExponent;
 	float spotCutoff; // (range: [0.0,90.0], 180.0)
 	float spotCosCutoff; // (range: [1.0,0.0],-1.0)
-	float constantAttenuation;
-	float linearAttenuation;
-	float quadraticAttenuation;
 };
 
 struct MaterialParameters {
@@ -21,13 +29,10 @@ struct MaterialParameters {
 };
 
 uniform mat4 mvp;
-uniform mat4 um4rotateMatrix, um4modelMatrix;
-uniform MaterialParameters Material;
-uniform LightSourceParameters LightSource;
+uniform MaterialParameters material;
+uniform LightSourceParameters lights;
 
 varying vec4 vv4color;
-varying vec4 vv4ambient, vv4diffuse;
-varying vec3 vv3normal, vv3halfVector;
 
 void main() {
 

@@ -14,6 +14,10 @@
 #define NUM_MODELS 6
 #endif
 
+#ifndef NUM_LIGHTS
+#define NUM_LIGHTS 3
+#endif
+
 class World {
 public:
 
@@ -29,8 +33,8 @@ public:
 	inline Model* getCurrentModel() {
 		return _models[_currentModelIndex];
 	}
-	inline LightSource* getLigthSource() {
-		return _light;
+	inline LightSource* getLigthSource(unsigned index) {
+		return _lights[index];
 	}
 
 	// Render function
@@ -40,7 +44,7 @@ private:
 
 	unsigned _currentModelIndex;
 	Model *_models[NUM_MODELS];
-	LightSource *_light;
+	LightSource *_lights[NUM_LIGHTS];
 
 };
 

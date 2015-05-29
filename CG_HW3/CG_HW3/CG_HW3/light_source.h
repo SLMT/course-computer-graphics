@@ -7,27 +7,41 @@
 // 3-party libraries
 #include <GL/glew.h>
 
+typedef enum e_light_type { Directional, Positional, SpotLight } LightType;
+
 class LightSource {
 public:
 
-	// Constructor
-	LightSource(GLfloat initX, GLfloat initY, GLfloat initZ);
+	// Constructors
+	LightSource(LightType type, bool isEnabled);
 
 	// Moving functions
 	void rotateByX(GLfloat theta);
 	void rotateByY(GLfloat theta);
 	void rotateByZ(GLfloat theta);
 
+	// Status controls
+	inline void toggleEnableStatus() {
+		_isEnabled = !_isEnabled;
+	}
+
 	// Render functions
 	void linkShader(ShaderPointers shPos);
 
 private:
 
+	// Status
+	bool _isEnabled;
+	LightType _type;
+
 	// Position
-	GLfloat _position[4];
+	GLfloat _position[3];
 
 	// Color paramters
-	GLfloat _ambient[4], _diffuse[4], _specular[4];
+	GLfloat _ambient[4], _color[4];
+
+	// Spot light parameters
+	GLfloat _spotDirect[3], _spotExp, _spotCosCutoff;
 };
 
 #endif

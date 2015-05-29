@@ -14,12 +14,10 @@ typedef struct s_shader_pointers {
 		matSpec, matShin;
 
 	// LightSourceParameters
-	GLint lightAmb, lightDiff, lightSpec;
-	GLint lightPos, lightHalfVec;
-	GLint lightSpotDir, lightSpotExp,
-		lightSpotCut, lightSpotCos;
-	GLint lightConsAtt, lightLinAtt,
-		lightQuadAtt;
+	GLint dirEnabled, dirDirection, dirAmbient, dirColor;
+	GLint posEnabled, posPosition, posAmbient, posColor;
+	GLint spotEnabled, spotPosition, spotAmbient, spotColor,
+		spotDirection, spotExponent, spotCosCutoff;
 
 } ShaderPointers;
 
