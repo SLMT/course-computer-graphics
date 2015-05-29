@@ -59,7 +59,6 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		case 'L':
 		case 'l':
 			world->getLigthSource(selectedLight)->toggleEnableStatus();
-			printf("Toggle the selected light source\n");
 			break;
 
 		// Select lights
@@ -77,6 +76,24 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		case 'p':
 			selectedLight = 2;
 			printf("Now select the spot light source\n");
+			break;
+
+		// Spot light control
+		case 'Z':
+		case 'z':
+			world->getLigthSource(2)->adjustSpotExp(0.01);
+			break;
+		case 'X':
+		case 'x':
+			world->getLigthSource(2)->adjustSpotExp(-0.01);
+			break;
+		case 'C':
+		case 'c':
+			world->getLigthSource(2)->adjustSpotCutoff(0.05);
+			break;
+		case 'V':
+		case 'v':
+			world->getLigthSource(2)->adjustSpotCutoff(-0.05);
 			break;
 	}
 }

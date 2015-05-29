@@ -24,9 +24,9 @@ struct LightSourceParameters {
 	float spotCosCutoff; // (range: [1.0,0.0],-1.0)
 };
 
-const float constantAttenuation = 1.0;
-const float linearAttenuation = 1.0;
-const float quadraticAttenuation = 1.0;
+const float constantAttenuation = 0.0;
+const float linearAttenuation = 0.75;
+const float quadraticAttenuation = 0.0;
 
 struct MaterialParameters {
 	vec4 ambient;
@@ -66,7 +66,7 @@ void main() {
 		vec4 specular = material.specular * lights.dirColor *
 		pow(max(dot(N, H), 0.0), material.shininess);
 
-		vv4color += ambient + diffuse + specular;
+		vv4color += (ambient + diffuse + specular) * 0.8;
 	}
 
 	// ===================
@@ -117,6 +117,7 @@ void main() {
 		else
 			attenuation *= pow(spotCos, lights.spotExponent);
 
+
 		// Compute the ambient term
 		vec4 ambient = material.ambient * lights.spotAmbient;
 
@@ -129,6 +130,6 @@ void main() {
 		vec4 specular = material.specular * lights.spotColor *
 		pow(max(dot(N, H), 0.0), material.shininess);
 
-		vv4color += ambient + diffuse + specular;
+		vv4color += (ambient + diffuse + specular) * attenuation;
 	}
 }

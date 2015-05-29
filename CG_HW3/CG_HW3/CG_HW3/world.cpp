@@ -7,9 +7,9 @@ World::World() {
 	_currentModelIndex = 0;
 
 	// Lighting
-	_lights[0] = new LightSource(Directional, false);
+	_lights[0] = new LightSource(Directional, true);
 	_lights[1] = new LightSource(Positional, false);
-	_lights[2] = new LightSource(SpotLight, true);
+	_lights[2] = new LightSource(SpotLight, false);
 
 	// Load models
 	_models[0] = new Model("NormalModels/Low/boxN.obj");

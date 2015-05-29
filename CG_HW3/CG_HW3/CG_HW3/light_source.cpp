@@ -32,7 +32,7 @@ LightSource::LightSource(LightType type, bool isEnabled) {
 	_spotDirect[1] = -1.0f;
 	_spotDirect[2] = -1.0f;
 	_spotExp = 1.0f;
-	_spotCosCutoff = 0.001f;
+	_spotCosCutoff = 1.5f;
 }
 
 void LightSource::rotateByX(GLfloat theta) {

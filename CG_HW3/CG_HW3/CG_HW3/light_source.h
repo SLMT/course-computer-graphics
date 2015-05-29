@@ -25,6 +25,16 @@ public:
 		_isEnabled = !_isEnabled;
 	}
 
+	// Spot light parameters
+	inline void adjustSpotExp(GLfloat delta) {
+		GLfloat tmp = _spotExp + delta;
+		_spotExp = (tmp > 0.0f)? tmp : 0.0;
+	}
+	inline void adjustSpotCutoff(GLfloat delta) {
+		GLfloat tmp = _spotCosCutoff + delta;
+		_spotCosCutoff = (tmp > 0.0f)? tmp : 0.0;
+	}
+
 	// Render functions
 	void linkShader(ShaderPointers shPos);
 
