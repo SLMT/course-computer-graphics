@@ -20,6 +20,9 @@ public:
 	void postmultiply(Matrix &rightMatrix);
 	void postmultiply(GLfloat rightMatrix[][4]);
 
+	// Apply to vectors
+	void applyTo(GLfloat *vec);
+
 	// Translate to column major matrix
 	void outputAsColumnMajor(GLfloat *out);
 

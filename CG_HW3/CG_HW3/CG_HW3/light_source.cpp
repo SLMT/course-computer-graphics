@@ -1,5 +1,8 @@
+#include <stdio.h>
+
 // Our libraries
 #include "light_source.h"
+#include "matrix.h"
 
 LightSource::LightSource(GLfloat initX, GLfloat initY, GLfloat initZ) {
 
@@ -16,6 +19,22 @@ LightSource::LightSource(GLfloat initX, GLfloat initY, GLfloat initZ) {
 		_specular[i] = 1.0f;
 	}
 }
+
+void LightSource::rotateByX(GLfloat theta) {
+	Matrix rotate = Matrix::generateRotationMatrix(theta, 1.0, 0.0, 0.0);
+	rotate.applyTo(_position);
+}
+
+void LightSource::rotateByY(GLfloat theta) {
+	Matrix rotate = Matrix::generateRotationMatrix(theta, 0.0, 1.0, 0.0);
+	rotate.applyTo(_position);
+}
+
+void LightSource::rotateByZ(GLfloat theta) {
+	Matrix rotate = Matrix::generateRotationMatrix(theta, 0.0, 0.0, 1.0);
+	rotate.applyTo(_position);
+}
+
 
 void LightSource::linkShader(ShaderPointers shPos) {
 	glUniform4fv(shPos.lightPos, 1, _position);

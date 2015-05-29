@@ -36,5 +36,22 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 			world->nextModel();
 			break;
 
+		// Moving
+		case 'A':
+		case 'a':
+			world->getLigthSource()->rotateByY(-5);
+			break;
+		case 'D':
+		case 'd':
+			world->getLigthSource()->rotateByY(5);
+			break;
+		case 'W':
+		case 'w':
+			world->getLigthSource()->rotateByX(-5);
+			break;
+		case 'S':
+		case 's':
+			world->getLigthSource()->rotateByX(5);
+			break;
 	}
 }

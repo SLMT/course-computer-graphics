@@ -5,12 +5,13 @@
 #include "shader.h"
 #include "matrix.h"
 #include "model.h"
+#include "light_source.h"
 
 // 3-party libraries
 #include <GL/glew.h>
 
 #ifndef NUM_MODELS
-#define NUM_MODELS 5
+#define NUM_MODELS 6
 #endif
 
 class World {
@@ -28,6 +29,9 @@ public:
 	inline Model* getCurrentModel() {
 		return _models[_currentModelIndex];
 	}
+	inline LightSource* getLigthSource() {
+		return _light;
+	}
 
 	// Render function
 	void draw(Matrix transformMatrix, ShaderPointers shPos);
@@ -36,6 +40,8 @@ private:
 
 	unsigned _currentModelIndex;
 	Model *_models[NUM_MODELS];
+	LightSource *_light;
+
 };
 
 #endif

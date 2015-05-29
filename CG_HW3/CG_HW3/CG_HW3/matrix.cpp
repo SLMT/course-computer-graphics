@@ -109,6 +109,19 @@ void Matrix::postmultiply(GLfloat rightMatrix[][4]) {
 			_data[i][j] = result[i][j];
 }
 
+void Matrix::applyTo(GLfloat *vec) {
+	GLfloat tmp[] = {0.0, 0.0, 0.0, 0.0};
+
+	// Calculate
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			tmp[i] += vec[j] * _data[i][j];
+
+	// Copy results
+	for (int i = 0; i < 4; i++)
+		vec[i] = tmp[i];
+}
+
 void Matrix::outputAsColumnMajor(GLfloat *out) {
 	for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)

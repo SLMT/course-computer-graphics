@@ -6,6 +6,9 @@ World::World() {
 	// Initialize variables
 	_currentModelIndex = 0;
 
+	// Lighting
+	_light = new LightSource(1.0f, 1.0f, 1.0f);
+
 	// Load models
 	_models[0] = new Model("NormalModels/Low/boxN.obj");
 	_models[1] = new Model("NormalModels/Low/dolphinN.obj");
@@ -16,6 +19,9 @@ World::World() {
 }
 
 void World::draw(Matrix transformMatrix, ShaderPointers shPos) {
+	// Set up the light source
+	_light->linkShader(shPos);
+
 	// Draw each model
 	_models[_currentModelIndex]->draw(transformMatrix, shPos);
 }

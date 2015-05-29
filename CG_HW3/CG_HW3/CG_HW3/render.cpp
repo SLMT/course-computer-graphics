@@ -12,7 +12,6 @@ World *world = NULL;
 const Camara DEFAULT_CAMARA = Camara(0, 0, 3, 0, 0, 0, 0, 1, 0);
 Camara camara = DEFAULT_CAMARA;
 Projection project = Projection(false, -1.5, 1.5, -1.5, 1.5, 1, 10);
-LightSource light = LightSource(1.0f, 1.0f, 1.0f);
 
 void onIdle()
 {
@@ -37,9 +36,6 @@ void onRender()
 
 	// Multiply view transform
 	mvp.postmultiply(camara.getViewTransform());
-
-	// Set up the light source
-	light.linkShader(pointers);
 
 	// Render world
 	world->draw(mvp, pointers);

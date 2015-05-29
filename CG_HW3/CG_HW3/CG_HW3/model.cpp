@@ -1,11 +1,13 @@
 #include <float.h>
-#include <stdio.h>
 
 // Our libraries
 #include "model.h"
 
 // 3-party libraries
 #include "GLM.h"
+
+#define SHINEINESS 100
+
 
 void copyData(unsigned count, GLfloat *from, GLfloat *to) {
 	for (unsigned i = 0; i < count; i++)
@@ -37,8 +39,8 @@ Model::Model(char *fileName) {
 		copyData(4, mat.ambient, _groups[groupIndex].ambient);
 		copyData(4, mat.specular, _groups[groupIndex].specular);
 		copyData(4, mat.emmissive, _groups[groupIndex].emmissive);
-		_groups[groupIndex].shininess = mat.shininess;
-		printf("shininess: %f\n", mat.shininess);
+		// _groups[groupIndex].shininess = mat.shininess;
+		_groups[groupIndex].shininess = SHINEINESS;
 
 		// Allocate memory for vertices and normals
 		GLuint numTri = group->numtriangles;

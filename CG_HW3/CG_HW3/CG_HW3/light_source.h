@@ -13,6 +13,12 @@ public:
 	// Constructor
 	LightSource(GLfloat initX, GLfloat initY, GLfloat initZ);
 
+	// Moving functions
+	void rotateByX(GLfloat theta);
+	void rotateByY(GLfloat theta);
+	void rotateByZ(GLfloat theta);
+
+	// Render functions
 	void linkShader(ShaderPointers shPos);
 
 private:
