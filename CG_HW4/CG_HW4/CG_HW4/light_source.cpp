@@ -31,8 +31,8 @@ LightSource::LightSource(LightType type, bool isEnabled) {
 	_spotDirect[0] = -1.0f;
 	_spotDirect[1] = -1.0f;
 	_spotDirect[2] = -1.0f;
-	_spotExp = 1.0f;
-	_spotCosCutoff = 1.5f;
+	_spotExp = 2.0f;
+	_spotCosCutoff = 1.71f;
 }
 
 void LightSource::rotateByX(GLfloat theta) {

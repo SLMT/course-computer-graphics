@@ -1,11 +1,13 @@
 #include <float.h>
 #include <stdio.h>
+#include <string.h>
 
 // Our libraries
 #include "model.h"
 
 // 3-party libraries
 #include "GLM.h"
+#include "texture.h"
 
 #define SHINEINESS 100
 
@@ -13,6 +15,47 @@
 void copyData(unsigned count, GLfloat *from, GLfloat *to) {
 	for (unsigned i = 0; i < count; i++)
 		to[i] = from[i];
+}
+
+void loadTexture(GLuint texId, char *texFileName) {
+	unsigned long size;
+	char temp;
+	FileHeader fh;
+	InfoHeader ih;
+	FILE *file;
+	char *image;
+	char actualTexFileName[100];
+
+	sprintf(actualTexFileName, "TextureModels/%s", texFileName);
+	printf("Texture file: %s\n", actualTexFileName);
+
+	// Read the file
+	file = fopen(actualTexFileName, "rb");
+	fread(&fh, sizeof(FileHeader), 1, file);
+	fread(&ih, sizeof(InfoHeader), 1, file);
+	size = ih.Width * ih.Height * 3; // IH.Width * IH.Height * 3
+	image = new char[size*sizeof(char)];
+	fread(image, size*sizeof(char), 1, file);
+	fclose(file);
+
+	// Swap channel => BRG----->RGB
+	for (unsigned i = 0; i < size; i += 3) {
+		temp = image[i];
+		image[i] = image[i+2];
+		image[i+2] = temp;
+	}
+
+	// Bind the texture
+	glBindTexture(GL_TEXTURE_2D, texId);
+
+	// SLMT: Create a Text2D texture
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ih.Width, ih.Height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+	// SLMT: Mipmap
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// Release the resource
+	delete[] image;
 }
 
 Model::Model(char *fileName) {
@@ -50,13 +93,22 @@ Model::Model(char *fileName) {
 		// _groups[groupIndex].shininess = mat.shininess;
 		_groups[groupIndex].shininess = SHINEINESS;
 
-		// Allocate memory for vertices and normals
+		// Get texture data
+		if (strcmp(model->materials[matIndex].textureImageName, "") != 0) {
+			glGenTextures(1, &(_groups[groupIndex].texId));
+			loadTexture(_groups[groupIndex].texId, model->materials[matIndex].textureImageName);
+			_groups[groupIndex].hasTexture = true;
+		} else
+			_groups[groupIndex].hasTexture = false;
+
+		// Allocate memory for vertices, normals and texture coordinates
 		GLuint numTri = group->numtriangles;
 		_groups[groupIndex].numTriangles = numTri;
 		_groups[groupIndex].vertices = new GLfloat[numTri * 3 * 3];
 		_groups[groupIndex].normals = new GLfloat[numTri * 3 * 3];
+		_groups[groupIndex].texCoord = new GLfloat[numTri * 3 * 3];
 
-		// Get vertices and normals
+		// Get vertices, normals and texture coordinates
 		for (GLuint triIndex = 0; triIndex < numTri; triIndex++) {
 			// Get the triangle index in the GLM model
 			GLuint glmTriIndex = group->triangles[triIndex];
@@ -65,16 +117,24 @@ Model::Model(char *fileName) {
 				// Get the vectex index in the GLM model
 				GLuint glmVecIndex = model->triangles[glmTriIndex].vindices[vecIndex];
 				GLuint glmNorIndex = model->triangles[glmTriIndex].nindices[vecIndex];
+				GLuint glmTextIndex = model->triangles[glmTriIndex].tindices[vecIndex];
 
 				for (GLuint coordIndex = 0; coordIndex < 3; coordIndex++) {
 					// Calculate the saving index
-					GLuint saveIndex = triIndex * 9 + vecIndex * 3 + coordIndex;
+					GLuint vecSaveIndex = triIndex * 9 + vecIndex * 3 + coordIndex;
+					GLuint texSaveIndex = triIndex * 6 + vecIndex * 2 + coordIndex;
 
 					// Get data
-					_groups[groupIndex].vertices[saveIndex] =
+					_groups[groupIndex].vertices[vecSaveIndex] =
 						model->vertices[glmVecIndex * 3 + coordIndex];
-					_groups[groupIndex].normals[saveIndex] =
+					_groups[groupIndex].normals[vecSaveIndex] =
 						model->normals[glmNorIndex * 3 + coordIndex];
+
+					// Get texture coordinates (only 2 dimensions)
+					if (coordIndex < 2) {
+						_groups[groupIndex].texCoord[texSaveIndex] =
+							model->texcoords[glmTextIndex * 2 + coordIndex];
+					}
 				}
 			}
 		}
@@ -91,7 +151,7 @@ Model::Model(char *fileName) {
 		GLfloat max = FLT_MIN, min = FLT_MAX;
 
 		// Notice: The indeces in Obj files start from 1
-		for (GLsizei vi = 1; vi < model->numvertices; vi++) {
+		for (unsigned vi = 1; vi < model->numvertices; vi++) {
 			GLfloat value = model->vertices[vi * 3 + ci];
 
 			if (max < value)
@@ -116,7 +176,7 @@ Model::Model(char *fileName) {
 		GLfloat max = -FLT_MAX, min = FLT_MAX;
 
 		// Notice: The indeces in Obj files start from 1
-		for (GLsizei vi = 1; vi < model->numvertices; vi++) {
+		for (unsigned vi = 1; vi < model->numvertices; vi++) {
 			GLfloat value = model->vertices[vi * 3 + ci];
 
 			if (max < value)
@@ -148,6 +208,10 @@ Model::Model(char *fileName) {
 	_rotation = Matrix();
 	_scale = Matrix();
 
+	// Texture parameters
+	_texWrapMode = GL_REPEAT;
+	_texMagFilter = GL_LINEAR;
+	_texMinFilter = GL_LINEAR;
 
 	// ==================
 	//  Release Resource
@@ -199,11 +263,26 @@ void Model::draw(Matrix transformMatrix, ShaderPointers shPos) {
 	glUniformMatrix4fv(shPos.mvp, 1, GL_FALSE, mvp);
 	
 	// For each material groups
-	for (int i = 0; i < _numGroups; i++) {
+	for (unsigned i = 0; i < _numGroups; i++) {
 		// Pass arrays and attributes to the shader
 		glVertexAttribPointer(shPos.vertexPos, 3, GL_FLOAT, GL_FALSE, 0, _groups[i].vertices);
 		glVertexAttribPointer(shPos.vertexNor, 3, GL_FLOAT, GL_FALSE, 0, _groups[i].normals);
+		glVertexAttribPointer(shPos.texCoord, 2, GL_FLOAT, GL_FALSE, 0, _groups[i].texCoord);
 
+		// Active the texture
+		if (_groups[i].hasTexture) {
+			glBindTexture(GL_TEXTURE_2D, _groups[i].texId);
+			glUniform1i(shPos.havingTexture, 1);
+
+			// Set texture parameters
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _texWrapMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _texWrapMode);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _texMinFilter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _texMagFilter);
+		} else
+			glUniform1i(shPos.havingTexture, 0);
+
+		// Pass the lighting parameters
 		glUniform4fv(shPos.matAmb, 1, _groups[i].ambient);
 		glUniform4fv(shPos.matDiff, 1, _groups[i].diffuse);
 		glUniform4fv(shPos.matSpec, 1, _groups[i].specular);

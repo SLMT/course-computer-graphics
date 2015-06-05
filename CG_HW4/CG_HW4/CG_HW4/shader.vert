@@ -1,5 +1,6 @@
 attribute vec4 av4position;
 attribute vec3 av3normal;
+attribute vec2 av2texCoord;
 
 struct LightSourceParameters {
 	// Directional Light
@@ -40,10 +41,12 @@ uniform MaterialParameters material;
 uniform LightSourceParameters lights;
 
 varying vec4 vv4color;
+varying vec2 vv2texCoord;
 
 void main() {
 	// Vertex Position
 	gl_Position = mvp * av4position;
+	vv2texCoord = av2texCoord;
 
 	vv4color = vec4(0.0, 0.0, 0.0, 1.0);
 	vec3 N = normalize(av3normal);

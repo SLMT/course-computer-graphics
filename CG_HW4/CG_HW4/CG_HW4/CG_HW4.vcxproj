@@ -20,6 +20,7 @@
     <ClInclude Include="projection.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="textfile.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>
   <ItemGroup>

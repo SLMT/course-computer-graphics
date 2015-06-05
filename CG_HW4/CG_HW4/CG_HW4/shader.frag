@@ -32,9 +32,18 @@ uniform mat4 mvp;
 uniform MaterialParameters material;
 uniform LightSourceParameters lights;
 
+// Textures
+uniform sampler2D texture2D;
+uniform int havingTexture;
+varying vec2 vv2texCoord;
+
 varying vec4 vv4color;
 
 void main() {
-
 	gl_FragColor = vv4color;
+
+	// Texture
+	if(havingTexture != 0){
+		gl_FragColor = vv4color * texture2D(texture2D, vv2texCoord);
+	}
 }

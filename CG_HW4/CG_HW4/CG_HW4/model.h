@@ -10,7 +10,7 @@
 
 typedef struct s_material_group {
 	// Vertex Info
-	GLfloat *vertices, *normals;
+	GLfloat *vertices, *normals, *texCoord;
 	GLuint numTriangles;
 
 	// Material Info
@@ -19,6 +19,10 @@ typedef struct s_material_group {
 	GLfloat specular[4];
 	GLfloat emmissive[4];
 	GLfloat shininess;
+
+	// Texture Info
+	GLuint texId;
+	bool hasTexture;
 } MaterialGroup;
 
 
@@ -54,6 +58,10 @@ private:
 	Matrix _normalize;
 	Matrix _translation, _rotation, _scale;
 
+	// Texture parameters
+	GLint _texWrapMode;
+	GLint _texMagFilter;
+	GLint _texMinFilter;
 };
 
 

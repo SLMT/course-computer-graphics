@@ -27,6 +27,7 @@ void onRender()
 	// Eanble arraies
 	glEnableVertexAttribArray(pointers.vertexPos);
 	glEnableVertexAttribArray(pointers.vertexNor);
+	glEnableVertexAttribArray(pointers.texCoord);
 
 	// Load an indentity matrix
 	Matrix mvp = Matrix();
@@ -102,6 +103,7 @@ void initShaders()
 	// link shader attributes and unifroms
 	pointers.vertexPos = glGetAttribLocation(p, "av4position");
 	pointers.vertexNor = glGetAttribLocation(p, "av3normal");
+	pointers.texCoord = glGetAttribLocation(p, "av2texCoord");
 	pointers.mvp = glGetUniformLocation(p, "mvp");
 
 	pointers.matAmb = glGetUniformLocation(p, "material.ambient");
@@ -126,6 +128,8 @@ void initShaders()
 	pointers.spotDirection = glGetUniformLocation(p, "lights.spotDirection");
 	pointers.spotExponent = glGetUniformLocation(p, "lights.spotExponent");
 	pointers.spotCosCutoff = glGetUniformLocation(p, "lights.spotCosCutoff");
+
+	pointers.havingTexture = glGetUniformLocation(p, "havingTexture");
 
 	glUseProgram(p);
 }

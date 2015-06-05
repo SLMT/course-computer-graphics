@@ -19,6 +19,8 @@ typedef struct s_shader_pointers {
 	GLint spotEnabled, spotPosition, spotAmbient, spotColor,
 		spotDirection, spotExponent, spotCosCutoff;
 
+	// Texture parameters
+	GLint texCoord, havingTexture;
 } ShaderPointers;
 
 #endif

@@ -4,15 +4,69 @@
 // Our libraries
 #include "main.h"
 
+// Define wheel motion
+#ifndef GLUT_WHEEL_UP
+	#define GLUT_WHEEL_UP   0x0003
+	#define GLUT_WHEEL_DOWN 0x0004
+#endif
+
+#define DELTA 0.1f
+
 // Flags
+int pressX = -1, pressY = -1;
 unsigned selectedLight = 0;
 
 void onMouseEvent(int who, int state, int x, int y) {
-	// Do nothing
+	GLfloat scaleValue = 0.0f;
+
+	// Which button
+	switch(who){
+	case GLUT_WHEEL_UP:
+		scaleValue = 1.0f + DELTA;
+		world->getCurrentModel()->scale(scaleValue, scaleValue, scaleValue);
+		break;
+	case GLUT_WHEEL_DOWN:
+		scaleValue = 1.0f - DELTA;
+		world->getCurrentModel()->scale(scaleValue, scaleValue, scaleValue);
+		break;
+	}
+
+	// Button states
+	switch(state){
+	case GLUT_DOWN:
+		// Save press position
+		pressX = x;
+		pressY = y;
+		break;
+	case GLUT_UP:
+		break;
+	}
 }
 
 void onMouseDragEvent(int x, int y) {
-	// Do nothing
+	static int lastX, lastY;
+
+	// Calculate values
+	GLfloat dx = (GLfloat) (x - lastX);
+	GLfloat dy = (GLfloat) (y - lastY);
+
+	// Check if it was the first time moving after pressing button
+	if (pressX != -1 && pressY != -1) {
+		dx = (GLfloat) (x - pressX);
+		dy = (GLfloat) (y - pressY);
+		pressX = -1;
+		pressY = -1;
+	}
+
+	// Rotate
+	if (dx > 0 + FLT_EPSILON || dx < 0 - FLT_EPSILON)
+		world->getCurrentModel()->rotate(dx / 10, 0, 1, 0);
+	if (dy > 0 + FLT_EPSILON || dy < 0 - FLT_EPSILON)
+		world->getCurrentModel()->rotate(-dy / 10, 1, 0, 0);
+
+	// Save the location
+	lastX = x;
+	lastY = y;
 }
 
 void onKeyboardEvent(unsigned char key, int x, int y) {
@@ -72,19 +126,19 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		// Spot light control
 		case 'Z':
 		case 'z':
-			world->getLigthSource(2)->adjustSpotExp(0.01);
+			world->getLigthSource(2)->adjustSpotExp(0.1f);
 			break;
 		case 'X':
 		case 'x':
-			world->getLigthSource(2)->adjustSpotExp(-0.01);
+			world->getLigthSource(2)->adjustSpotExp(-0.1f);
 			break;
 		case 'C':
 		case 'c':
-			world->getLigthSource(2)->adjustSpotCutoff(0.05);
+			world->getLigthSource(2)->adjustSpotCutoff(0.01f);
 			break;
 		case 'V':
 		case 'v':
-			world->getLigthSource(2)->adjustSpotCutoff(-0.05);
+			world->getLigthSource(2)->adjustSpotCutoff(-0.01f);
 			break;
 
 		// Help
