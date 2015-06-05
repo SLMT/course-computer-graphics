@@ -34,6 +34,7 @@ extern World *world;
 extern const Camara DEFAULT_CAMARA;
 extern Camara camara;
 extern Projection project;
+extern bool isVertexLighting;
 
 // Camara for view
 extern Camara camara;

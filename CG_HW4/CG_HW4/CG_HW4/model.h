@@ -45,6 +45,23 @@ public:
 		_scale = Matrix();
 	}
 
+	// Texture control
+	inline void toggleWrapMode() {
+		if (_texWrapMode == GL_REPEAT)
+			_texWrapMode = GL_CLAMP_TO_EDGE;
+		else
+			_texWrapMode = GL_REPEAT;
+	}
+	inline void toggleFilter() {
+		if (_texMagFilter == GL_LINEAR) {
+			_texMagFilter = GL_NEAREST;
+			_texMinFilter = GL_NEAREST;
+		} else {
+			_texMagFilter = GL_LINEAR;
+			_texMinFilter = GL_LINEAR;
+		}
+	} 
+
 	// Render function
 	void draw(Matrix transformMatrix, ShaderPointers shPos);
 

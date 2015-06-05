@@ -14,6 +14,7 @@ typedef struct s_shader_pointers {
 		matSpec, matShin;
 
 	// LightSourceParameters
+	GLint isVertexLighting;
 	GLint dirEnabled, dirDirection, dirAmbient, dirColor;
 	GLint posEnabled, posPosition, posAmbient, posColor;
 	GLint spotEnabled, spotPosition, spotAmbient, spotColor,

@@ -43,7 +43,7 @@ World::World() {
 	_lights[2] = new LightSource(SpotLight, false);
 
 	// Load models
-	for (unsigned i = 0; i < 1; i++) {
+	for (unsigned i = 0; i < NUM_MODELS; i++) {
 		printf("Loading model file: %s\n", modelFiles[i]);
 		_models[i] = new Model(modelFiles[i]);
 	}

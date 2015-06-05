@@ -12,6 +12,7 @@ World *world = NULL;
 const Camara DEFAULT_CAMARA = Camara(0, 0, 3, 0, 0, 0, 0, 1, 0);
 Camara camara = DEFAULT_CAMARA;
 Projection project = Projection(false, -1.5, 1.5, -1.5, 1.5, 1, 10);
+bool isVertexLighting = false;
 
 void onIdle()
 {
@@ -28,6 +29,14 @@ void onRender()
 	glEnableVertexAttribArray(pointers.vertexPos);
 	glEnableVertexAttribArray(pointers.vertexNor);
 	glEnableVertexAttribArray(pointers.texCoord);
+
+	// Vertex lighting vs. Fragment lighting
+	if (isVertexLighting)
+		glUniform1i(pointers.isVertexLighting, 1);
+	else
+		glUniform1i(pointers.isVertexLighting, 0);
+
+	// Texture 
 
 	// Load an indentity matrix
 	Matrix mvp = Matrix();
@@ -130,6 +139,7 @@ void initShaders()
 	pointers.spotCosCutoff = glGetUniformLocation(p, "lights.spotCosCutoff");
 
 	pointers.havingTexture = glGetUniformLocation(p, "havingTexture");
+	pointers.isVertexLighting = glGetUniformLocation(p, "isVertexLighting");
 
 	glUseProgram(p);
 }

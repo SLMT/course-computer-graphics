@@ -140,6 +140,22 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 		case 'v':
 			world->getLigthSource(2)->adjustSpotCutoff(-0.01f);
 			break;
+		
+		// Lighting 
+		case 'Q':
+		case 'q':
+			isVertexLighting = !isVertexLighting;
+			break;
+
+		// Texture 
+		case 'T':
+		case 't':
+			world->getCurrentModel()->toggleWrapMode();
+			break;
+		case 'Y':
+		case 'y':
+			world->getCurrentModel()->toggleFilter();
+			break;
 
 		// Help
 		case 'H':
@@ -155,6 +171,9 @@ void onKeyboardEvent(unsigned char key, int x, int y) {
 			printf("L: Turn on/off the selected light source\n");
 			printf("Z/X: Adjust the exponent value of spot light\n");
 			printf("C/V: Adjust the cutoff value of spot light\n\n");
+			printf("Q: Toggle vertex and fragment lighting\n\n");
+			printf("T: Toggle texture wrap mode\n\n");
+			printf("Y: Toggle texture mag/min filter\n\n");
 			printf("M: Next model\n");
 			printf("H: Help List\n");
 			break;
